@@ -1,0 +1,39 @@
+{
+  "name": "WebNova – Website Design & Digital Marketing",
+  "short_name": "WebNova",
+  "description": "Custom websites, branding, SEO & digital growth solutions by WebNova India.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#faf9fd",
+  "theme_color": "#7c3aed",
+  "lang": "en-IN",
+  "scope": "/",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ],
+  "categories": ["business", "productivity"],
+  "screenshots": [
+    {
+      "src": "/og-image.jpg",
+      "sizes": "1200x630",
+      "type": "image/jpeg"
+    }
+  ]
+}
