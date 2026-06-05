@@ -255,1073 +255,971 @@
     gtag('js', new Date());
     gtag('config', 'G-XXXXXXXXXX');
   </script> -->
+<style>
+:root {
+  --ink: #0d0d0d;
+  --ink2: #1a1a1a;
+  --ink3: #3a3a3a;
+  --muted: #7a7a7a;
+  --paper: #f5f0e8;
+  --paper2: #ede8dc;
+  --paper3: #e4ddd0;
+  --white: #faf8f4;
+  --gold: #b8860b;
+  --gold2: #d4a017;
+  --gold-light: #f0c040;
+  --rust: #c1440e;
+  --forest: #2d5016;
+  --steel: #1c3a5e;
+  --r: 14px;
+  --r2: 24px;
+  --transition: 0.4s cubic-bezier(0.4,0,0.2,1);
+}
 
-  <style>
-    :root {
-      --ink: #0a0a0f;
-      --ink2: #1e1b2e;
-      --ink3: #3d3a52;
-      --muted: #6b6880;
-      --light: #f4f3f8;
-      --lighter: #faf9fd;
-      --white: #ffffff;
-      --accent: #7c3aed;
-      --accent2: #db2777;
-      --grad: linear-gradient(135deg, #7c3aed, #db2777);
-      --grad2: linear-gradient(135deg, #5b21b6, #9d174d);
-      --grad-soft: linear-gradient(135deg, rgba(124,58,237,0.08), rgba(219,39,119,0.08));
-      --radius: 18px;
-      --radius-lg: 28px;
-      --radius-xl: 40px;
-      --shadow: 0 4px 24px rgba(124,58,237,0.12);
-      --shadow-lg: 0 20px 60px rgba(10,10,15,0.15);
-      --transition: 0.35s cubic-bezier(0.4,0,0.2,1);
-    }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
 
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-    body {
-      font-family: 'DM Sans', sans-serif;
-      background: var(--lighter);
-      color: var(--ink);
-      overflow-x: hidden;
-      font-size: 16px;
-      line-height: 1.6;
-    }
-    h1,h2,h3,h4,h5 { font-family: 'Syne', sans-serif; line-height: 1.15; }
+body {
+  font-family: 'Epilogue', sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  overflow-x: hidden;
+  line-height: 1.6;
+}
 
-    ::-webkit-scrollbar { width: 4px; }
-    ::-webkit-scrollbar-track { background: var(--lighter); }
-    ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 4px; }
-    ::selection { background: rgba(124,58,237,0.2); color: var(--ink); }
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.4;
+}
 
-    /* ── NAV ── */
-    .nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 1000;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 10px 6%;
-      background: rgba(250,249,253,0.92);
-      backdrop-filter: blur(20px);
-      border-bottom: 1px solid rgba(124,58,237,0.08);
-      transition: var(--transition);
-    }
-    .nav.scrolled {
-      padding: 8px 6%;
-      background: rgba(250,249,253,0.98);
-      box-shadow: 0 4px 24px rgba(10,10,15,0.08);
-    }
-    .logo-img {
-      height: 110px;
-      width: auto;
-      max-width: 400px;
-      display: block;
-      transition: var(--transition);
-    }
-    .nav.scrolled .logo-img { height: 64px; }
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-track { background: var(--paper); }
+::-webkit-scrollbar-thumb { background: var(--ink); }
 
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 32px;
-    }
-    .nav-links a {
-      text-decoration: none;
-      font-weight: 500;
-      font-size: 0.9rem;
-      color: var(--ink3);
-      letter-spacing: 0.01em;
-      transition: color 0.2s;
-      position: relative;
-    }
-    .nav-links a::after {
-      content: '';
-      position: absolute;
-      bottom: -2px; left: 0;
-      width: 0; height: 1.5px;
-      background: var(--grad);
-      transition: width 0.3s ease;
-    }
-    .nav-links a:hover { color: var(--accent); }
-    .nav-links a:hover::after { width: 100%; }
+/* ── NAV ── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 5%;
+  background: rgba(245,240,232,0.92);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(13,13,13,0.08);
+  transition: padding var(--transition);
+}
+nav.scrolled { padding: 14px 5%; }
 
-    .btn-cta {
-      background: var(--grad);
-      color: #fff;
-      padding: 10px 22px;
-      border-radius: 50px;
-      font-weight: 600;
-      font-size: 0.875rem;
-      border: none;
-      cursor: pointer;
-      transition: var(--transition);
-      box-shadow: 0 4px 16px rgba(124,58,237,0.3);
-      white-space: nowrap;
-    }
-    .btn-cta:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 28px rgba(124,58,237,0.45);
-    }
+.nav-logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: var(--ink);
+  text-decoration: none;
+  letter-spacing: -0.02em;
+}
+.nav-logo span { color: var(--gold); }
 
-    .hamburger {
-      display: none;
-      flex-direction: column;
-      justify-content: space-between;
-      width: 26px; height: 18px;
-      cursor: pointer;
-      background: none;
-      border: none;
-      padding: 0;
-      z-index: 1100;
-    }
-    .hamburger span {
-      display: block;
-      height: 2px;
-      background: var(--ink);
-      border-radius: 2px;
-      transition: var(--transition);
-    }
-    .hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(5px,6px); }
-    .hamburger.open span:nth-child(2) { opacity: 0; }
-    .hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px,-6px); }
+.nav-links { display: flex; align-items: center; gap: 36px; }
+.nav-links a {
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink3);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--ink); }
 
-    .mobile-menu {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: var(--lighter);
-      z-index: 999;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 36px;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.3s ease;
-    }
-    .mobile-menu.open {
-      display: flex;
-      opacity: 1;
-      pointer-events: all;
-    }
-    .mobile-menu a {
-      font-family: 'Syne', sans-serif;
-      font-size: 2rem;
-      font-weight: 700;
-      text-decoration: none;
-      color: var(--ink);
-      transition: color 0.2s;
-    }
-    .mobile-menu a:hover { color: var(--accent); }
+.nav-cta {
+  background: var(--ink);
+  color: var(--paper) !important;
+  padding: 9px 22px;
+  border-radius: 3px;
+  font-size: 0.78rem !important;
+  letter-spacing: 0.08em !important;
+  transition: background 0.2s, transform 0.2s !important;
+}
+.nav-cta:hover { background: var(--gold) !important; transform: none; color: #fff !important; }
 
-    /* ── HERO ── */
-    .hero {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 120px 6% 80px;
-      position: relative;
-      overflow: hidden;
-      background: var(--ink2);
-    }
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 4px;
+}
+.hamburger span { display: block; width: 22px; height: 1.5px; background: var(--ink); transition: var(--transition); }
+.hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(4px,5px); }
+.hamburger.open span:nth-child(2) { opacity: 0; }
+.hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(4px,-5px); }
 
-    #hero-canvas {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 0;
-    }
+.mobile-menu {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: var(--paper);
+  z-index: 999;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+.mobile-menu.open { display: flex; opacity: 1; pointer-events: all; }
+.mobile-menu a {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--ink);
+  text-decoration: none;
+}
 
-    .hero-bg {
-      position: absolute; inset: 0;
-      background:
-        radial-gradient(ellipse 80% 60% at 50% -10%, rgba(124,58,237,0.35) 0%, transparent 70%),
-        radial-gradient(ellipse 60% 50% at 80% 100%, rgba(219,39,119,0.18) 0%, transparent 65%);
-      z-index: 1;
-      pointer-events: none;
-    }
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-end;
+  padding: 140px 5% 80px;
+  position: relative;
+  overflow: hidden;
+  background: var(--ink2);
+}
 
-    .hero-content {
-      position: relative;
-      z-index: 2;
-      max-width: 860px;
-    }
-    .hero-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(255,255,255,0.15);
-      padding: 7px 18px;
-      border-radius: 50px;
-      font-size: 0.8rem;
-      font-weight: 500;
-      color: rgba(255,255,255,0.8);
-      margin-bottom: 30px;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      opacity: 0;
-      animation: fadeUp 0.7s 0.2s ease forwards;
-    }
-    .hero-badge::before {
-      content: '';
-      width: 7px; height: 7px;
-      border-radius: 50%;
-      background: #22c55e;
-      box-shadow: 0 0 0 3px rgba(34,197,94,0.25);
-      animation: pulse 2s infinite;
-    }
-    @keyframes pulse {
-      0%,100% { box-shadow: 0 0 0 3px rgba(34,197,94,0.25); }
-      50% { box-shadow: 0 0 0 6px rgba(34,197,94,0.1); }
-    }
-    .hero h1 {
-      font-size: clamp(2.8rem, 7vw, 5.5rem);
-      font-weight: 800;
-      color: #fff;
-      letter-spacing: -0.03em;
-      line-height: 1.05;
-      margin-bottom: 24px;
-      opacity: 0;
-      animation: fadeUp 0.8s 0.4s ease forwards;
-    }
-    .hero h1 .grad-text {
-      background: linear-gradient(135deg, #c084fc, #f472b6);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    .hero p {
-      font-size: 1.15rem;
-      color: rgba(255,255,255,0.65);
-      max-width: 580px;
-      margin: 0 auto 40px;
-      font-weight: 300;
-      opacity: 0;
-      animation: fadeUp 0.8s 0.6s ease forwards;
-    }
-    .hero-actions {
-      display: flex;
-      justify-content: center;
-      gap: 16px;
-      flex-wrap: wrap;
-      opacity: 0;
-      animation: fadeUp 0.8s 0.8s ease forwards;
-    }
-    .btn-hero-primary {
-      background: var(--grad);
-      color: #fff;
-      padding: 16px 36px;
-      border-radius: 50px;
-      font-weight: 700;
-      font-size: 0.95rem;
-      border: none;
-      cursor: pointer;
-      transition: var(--transition);
-      box-shadow: 0 8px 30px rgba(124,58,237,0.5);
-      font-family: 'Syne', sans-serif;
-    }
-    .btn-hero-primary:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 14px 40px rgba(124,58,237,0.6);
-    }
-    .btn-hero-outline {
-      background: transparent;
-      color: #fff;
-      padding: 14px 34px;
-      border-radius: 50px;
-      font-weight: 600;
-      font-size: 0.95rem;
-      border: 1.5px solid rgba(255,255,255,0.3);
-      cursor: pointer;
-      transition: var(--transition);
-      font-family: 'Syne', sans-serif;
-    }
-    .btn-hero-outline:hover {
-      border-color: rgba(255,255,255,0.7);
-      background: rgba(255,255,255,0.06);
-      transform: translateY(-2px);
-    }
-    .hero-stats {
-      display: flex;
-      justify-content: center;
-      gap: 48px;
-      margin-top: 70px;
-      padding-top: 40px;
-      border-top: 1px solid rgba(255,255,255,0.1);
-      opacity: 0;
-      animation: fadeUp 0.8s 1s ease forwards;
-    }
-    .stat-item { text-align: center; }
-    .stat-number {
-      font-family: 'Syne', sans-serif;
-      font-size: 2rem;
-      font-weight: 800;
-      color: #fff;
-      display: block;
-    }
-    .stat-label {
-      font-size: 0.8rem;
-      color: rgba(255,255,255,0.5);
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-    }
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(24px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+.hero-bg-number {
+  position: absolute;
+  right: 3%;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(180px, 25vw, 360px);
+  font-weight: 900;
+  color: rgba(255,255,255,0.03);
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+  letter-spacing: -0.05em;
+}
 
-    /* ── FLOATING 3D CARDS ── */
-    .cards-3d-section {
-      padding: 100px 6%;
-      background: var(--ink2);
-      perspective: 1200px;
-    }
-    .cards-3d-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 20px;
-      perspective: 1200px;
-    }
-    .card-3d {
-      background: linear-gradient(145deg, rgba(255,255,255,0.07), rgba(255,255,255,0.03));
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 20px;
-      padding: 32px 24px;
-      text-align: center;
-      transform-style: preserve-3d;
-      transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.6s ease;
-      cursor: default;
-      position: relative;
-      overflow: hidden;
-      animation: float3d 6s ease-in-out infinite;
-    }
-    .card-3d:nth-child(2) { animation-delay: -1.5s; }
-    .card-3d:nth-child(3) { animation-delay: -3s; }
-    .card-3d:nth-child(4) { animation-delay: -4.5s; }
+.hero-line {
+  position: absolute;
+  left: 5%;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1px;
+  height: 200px;
+  background: linear-gradient(to bottom, transparent, rgba(184,134,11,0.6), transparent);
+}
 
-    @keyframes float3d {
-      0%, 100% { transform: translateY(0px) rotateX(0deg) rotateY(0deg); }
-      25% { transform: translateY(-12px) rotateX(3deg) rotateY(-3deg); }
-      50% { transform: translateY(-6px) rotateX(-2deg) rotateY(3deg); }
-      75% { transform: translateY(-16px) rotateX(2deg) rotateY(-2deg); }
-    }
+.hero-content { position: relative; z-index: 2; max-width: 900px; }
 
-    .card-3d:hover {
-      animation-play-state: paused;
-      box-shadow: 0 30px 60px rgba(124,58,237,0.4), 0 0 40px rgba(219,39,119,0.2);
-    }
-    .card-3d::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: var(--grad);
-      opacity: 0;
-      transition: opacity 0.4s ease;
-      border-radius: 20px;
-    }
-    .card-3d:hover::before { opacity: 0.12; }
-    .card-3d-icon {
-      font-size: 2.5rem;
-      margin-bottom: 16px;
-      display: block;
-      transform: translateZ(20px);
-    }
-    .card-3d h4 {
-      font-size: 1rem;
-      font-weight: 700;
-      color: #fff;
-      margin-bottom: 8px;
-    }
-    .card-3d p {
-      font-size: 0.83rem;
-      color: rgba(255,255,255,0.5);
-      line-height: 1.6;
-    }
+.hero-eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold2);
+  margin-bottom: 28px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.hero-eyebrow::before {
+  content: '';
+  width: 40px;
+  height: 1px;
+  background: var(--gold2);
+}
 
-    /* ── SHARED ── */
-    .section { padding: 100px 6%; }
-    .section-alt { background: var(--white); }
-    .section-tag {
-      display: inline-block;
-      font-size: 0.72rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.14em;
-      color: var(--accent);
-      background: rgba(124,58,237,0.08);
-      padding: 5px 14px;
-      border-radius: 50px;
-      margin-bottom: 16px;
-    }
-    .section-heading {
-      font-size: clamp(2rem, 4.5vw, 3.2rem);
-      font-weight: 800;
-      letter-spacing: -0.03em;
-      color: var(--ink);
-      margin-bottom: 16px;
-    }
-    .section-sub {
-      font-size: 1.05rem;
-      color: var(--muted);
-      max-width: 560px;
-      line-height: 1.7;
-    }
-    .section-header {
-      max-width: 620px;
-      margin-bottom: 64px;
-    }
-    .section-header.center {
-      margin: 0 auto 64px;
-      text-align: center;
-    }
-    .section-header.center .section-sub { margin: 0 auto; }
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(3rem, 7.5vw, 7rem);
+  font-weight: 900;
+  color: var(--white);
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  margin-bottom: 36px;
+}
+.hero h1 em { font-style: italic; color: var(--gold2); }
+.hero h1 .outlined {
+  -webkit-text-stroke: 1.5px rgba(255,255,255,0.3);
+  color: transparent;
+}
 
-    /* ── ABOUT ── */
-    .about-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 64px;
-      align-items: center;
-    }
-    .about-text p {
-      color: var(--muted);
-      line-height: 1.85;
-      margin-bottom: 18px;
-      font-size: 1.02rem;
-    }
-    .about-cards {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-    }
-    .about-card {
-      background: var(--lighter);
-      border: 1px solid rgba(124,58,237,0.1);
-      border-radius: var(--radius);
-      padding: 28px;
-      transition: var(--transition);
-      transform-style: preserve-3d;
-    }
-    .about-card:hover {
-      border-color: rgba(124,58,237,0.3);
-      transform: translateY(-8px) rotateX(5deg);
-      box-shadow: 0 20px 40px rgba(124,58,237,0.15);
-    }
-    .about-card-icon {
-      width: 44px; height: 44px;
-      border-radius: 12px;
-      background: var(--grad);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 20px;
-      margin-bottom: 14px;
-    }
-    .about-card h4 { font-size: 1rem; font-weight: 700; margin-bottom: 6px; color: var(--ink); }
-    .about-card p { font-size: 0.85rem; color: var(--muted); line-height: 1.6; }
+.hero-meta {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+.hero-desc {
+  font-size: 1rem;
+  color: rgba(250,248,244,0.55);
+  max-width: 420px;
+  line-height: 1.75;
+  font-weight: 300;
+}
+.hero-stats-mini { display: flex; gap: 32px; }
+.hero-stat-mini { text-align: center; }
+.hero-stat-mini strong {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--white);
+  display: block;
+  line-height: 1;
+}
+.hero-stat-mini span {
+  font-size: 0.68rem;
+  color: rgba(255,255,255,0.35);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-family: 'DM Mono', monospace;
+}
 
-    /* ── PROCESS ── */
-    .process-steps {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 2px;
-      position: relative;
-      perspective: 800px;
-    }
-    .process-step {
-      position: relative;
-      padding: 36px 28px;
-      background: var(--white);
-      border: 1px solid rgba(124,58,237,0.08);
-      border-radius: var(--radius);
-      transition: transform 0.5s cubic-bezier(0.23,1,0.32,1), box-shadow 0.5s ease;
-      overflow: hidden;
-    }
-    .process-step::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 3px;
-      background: var(--grad);
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform 0.4s ease;
-    }
-    .process-step:hover::before { transform: scaleX(1); }
-    .process-step:hover {
-      transform: translateY(-12px) rotateX(8deg);
-      border-color: rgba(124,58,237,0.2);
-      box-shadow: 0 25px 50px rgba(124,58,237,0.2);
-    }
-    .step-num {
-      font-family: 'Syne', sans-serif;
-      font-size: 3.5rem;
-      font-weight: 800;
-      color: rgba(124,58,237,0.08);
-      line-height: 1;
-      margin-bottom: 16px;
-      letter-spacing: -2px;
-    }
-    .process-step h4 { font-size: 1.05rem; font-weight: 700; margin-bottom: 10px; color: var(--ink); }
-    .process-step p { font-size: 0.88rem; color: var(--muted); line-height: 1.7; }
+.hero-scroll {
+  position: absolute;
+  bottom: 40px;
+  right: 5%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: rgba(255,255,255,0.35);
+  font-family: 'DM Mono', monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  writing-mode: vertical-rl;
+}
+.hero-scroll::after {
+  content: '';
+  width: 1px;
+  height: 60px;
+  background: linear-gradient(to bottom, rgba(255,255,255,0.3), transparent);
+  display: block;
+}
 
-    /* ── SERVICES ── */
-    .tabs-wrap {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 40px;
-      justify-content: center;
-    }
-    .tab {
-      padding: 9px 22px;
-      border-radius: 50px;
-      border: 1.5px solid rgba(124,58,237,0.2);
-      background: transparent;
-      font-weight: 600;
-      font-size: 0.875rem;
-      cursor: pointer;
-      transition: var(--transition);
-      color: var(--ink3);
-      font-family: 'DM Sans', sans-serif;
-    }
-    .tab:hover { border-color: var(--accent); color: var(--accent); }
-    .tab.active {
-      background: var(--grad);
-      color: #fff;
-      border-color: transparent;
-      box-shadow: 0 4px 16px rgba(124,58,237,0.35);
-    }
-    .pricing-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 24px;
-      perspective: 1000px;
-    }
-    .card {
-      background: var(--white);
-      border: 1px solid rgba(124,58,237,0.1);
-      border-radius: var(--radius-lg);
-      padding: 36px;
-      transition: transform 0.5s cubic-bezier(0.23,1,0.32,1), box-shadow 0.5s ease;
-      position: relative;
-      overflow: hidden;
-      transform-style: preserve-3d;
-    }
-    .card::after {
-      content: '';
-      position: absolute;
-      bottom: 0; left: 0; right: 0;
-      height: 4px;
-      background: var(--grad);
-      transform: scaleX(0);
-      transition: transform 0.4s ease;
-    }
-    .card:hover::after { transform: scaleX(1); }
-    .card:hover {
-      transform: translateY(-16px) rotateX(6deg) rotateY(-2deg);
-      box-shadow: 0 40px 80px rgba(124,58,237,0.25);
-      border-color: rgba(124,58,237,0.25);
-    }
-    .card.featured {
-      border-color: var(--accent);
-      background: linear-gradient(145deg, #fff, rgba(124,58,237,0.03));
-    }
-    .card.featured::after { transform: scaleX(1); }
-    .card-tag { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 8px; }
-    .card h3 { font-size: 1.25rem; font-weight: 700; margin-bottom: 4px; }
-    .price {
-      font-family: 'Syne', sans-serif;
-      font-size: 2.2rem;
-      font-weight: 800;
-      background: var(--grad);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      margin: 16px 0;
-    }
-    .feature-list { list-style: none; margin: 20px 0 28px; }
-    .feature-list li {
-      padding: 8px 0;
-      font-size: 0.9rem;
-      color: var(--muted);
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      border-bottom: 1px solid var(--light);
-    }
-    .feature-list li:last-child { border: none; }
-    .feature-list li::before {
-      content: '';
-      flex-shrink: 0;
-      width: 16px; height: 16px;
-      border-radius: 50%;
-      background: var(--grad);
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2 6l3 3 5-5' stroke='white' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-      background-size: 10px;
-      background-repeat: no-repeat;
-      background-position: center;
-    }
-    .btn-enquire {
-      width: 100%;
-      padding: 13px;
-      background: var(--grad);
-      color: #fff;
-      border: none;
-      border-radius: 50px;
-      font-weight: 700;
-      font-size: 0.9rem;
-      cursor: pointer;
-      transition: var(--transition);
-      font-family: 'Syne', sans-serif;
-    }
-    .btn-enquire:hover {
-      box-shadow: 0 8px 24px rgba(124,58,237,0.45);
-      transform: translateY(-2px);
-    }
+/* Ticker */
+.ticker-wrap {
+  background: var(--gold);
+  overflow: hidden;
+  padding: 14px 0;
+}
+.ticker-inner {
+  display: flex;
+  gap: 0;
+  animation: ticker 20s linear infinite;
+  white-space: nowrap;
+}
+.ticker-item {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink);
+  padding: 0 40px;
+  flex-shrink: 0;
+}
+.ticker-sep { color: rgba(13,13,13,0.4); }
+@keyframes ticker {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
 
-    /* ── 3D ORBIT SECTION ── */
-    .orbit-section {
-      background: var(--ink2);
-      padding: 100px 6%;
-      position: relative;
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      gap: 80px;
-    }
-    #orbit-canvas {
-      width: 420px;
-      height: 420px;
-      flex-shrink: 0;
-      border-radius: 50%;
-      overflow: hidden;
-    }
-    .orbit-text { flex: 1; }
-    .orbit-text .section-heading { color: #fff; }
-    .orbit-text .section-sub { color: rgba(255,255,255,0.55); }
-    .orbit-stat-row {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
-      margin-top: 40px;
-    }
-    .orbit-stat {
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 16px;
-      padding: 20px;
-      text-align: center;
-    }
-    .orbit-stat strong {
-      font-family: 'Syne', sans-serif;
-      font-size: 1.8rem;
-      font-weight: 800;
-      color: #fff;
-      display: block;
-    }
-    .orbit-stat span {
-      font-size: 0.75rem;
-      color: rgba(255,255,255,0.4);
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-    }
+/* ── SECTION COMMONS ── */
+.section { padding: 100px 5%; }
+.section-alt { background: var(--white); }
+.section-dark { background: var(--ink); }
 
-    /* ── WHY US ── */
-    .why-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 64px;
-      align-items: center;
-    }
-    .why-main-card {
-      background: var(--ink2);
-      border-radius: var(--radius-xl);
-      padding: 44px;
-      color: #fff;
-      position: relative;
-      overflow: hidden;
-      transform-style: preserve-3d;
-      transition: transform 0.6s cubic-bezier(0.23,1,0.32,1), box-shadow 0.6s ease;
-    }
-    .why-main-card:hover {
-      transform: rotateY(-8deg) rotateX(4deg) translateY(-8px);
-      box-shadow: 30px 30px 60px rgba(124,58,237,0.3);
-    }
-    .why-main-card::before {
-      content: '';
-      position: absolute;
-      top: -60px; right: -60px;
-      width: 200px; height: 200px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(124,58,237,0.4), transparent 70%);
-    }
-    .why-main-card h3 { font-size: 2rem; margin-bottom: 12px; position: relative; }
-    .why-main-card p { color: rgba(255,255,255,0.6); line-height: 1.7; position: relative; }
-    .why-floating {
-      position: absolute;
-      bottom: -20px; right: -20px;
-      background: var(--white);
-      border-radius: var(--radius);
-      padding: 18px 22px;
-      box-shadow: var(--shadow-lg);
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-    .why-floating-icon {
-      width: 40px; height: 40px;
-      border-radius: 10px;
-      background: var(--grad);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 18px;
-    }
-    .why-floating strong { font-size: 1.2rem; font-weight: 800; color: var(--ink); display: block; }
-    .why-floating small { font-size: 0.75rem; color: var(--muted); }
-    .why-visual { position: relative; }
-    .why-points { display: flex; flex-direction: column; gap: 24px; }
-    .why-point {
-      display: flex;
-      gap: 18px;
-      align-items: flex-start;
-      padding: 24px;
-      border-radius: var(--radius);
-      border: 1px solid transparent;
-      transition: var(--transition);
-      cursor: default;
-    }
-    .why-point:hover {
-      background: var(--white);
-      border-color: rgba(124,58,237,0.12);
-      box-shadow: var(--shadow);
-      transform: translateX(8px);
-    }
-    .why-point-icon {
-      width: 46px; height: 46px;
-      border-radius: 12px;
-      background: rgba(124,58,237,0.08);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 20px;
-      flex-shrink: 0;
-      transition: var(--transition);
-    }
-    .why-point:hover .why-point-icon { background: var(--grad); }
-    .why-point-text h4 { font-size: 1rem; font-weight: 700; margin-bottom: 5px; color: var(--ink); }
-    .why-point-text p { font-size: 0.875rem; color: var(--muted); line-height: 1.65; }
+.label {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.label::before { content: '//'; color: var(--muted); }
+.label.light { color: var(--gold-light); }
+.label.light::before { color: rgba(255,255,255,0.3); }
 
-    /* ── TESTIMONIALS ── */
-    .testimonials-track {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
-      perspective: 800px;
-    }
-    .testimonial-card {
-      background: var(--white);
-      border: 1px solid rgba(124,58,237,0.1);
-      border-radius: var(--radius-lg);
-      padding: 32px;
-      transition: transform 0.5s cubic-bezier(0.23,1,0.32,1), box-shadow 0.5s ease;
-      position: relative;
-    }
-    .testimonial-card:hover {
-      transform: translateY(-12px) rotateX(5deg);
-      box-shadow: 0 30px 60px rgba(124,58,237,0.18);
-      border-color: rgba(124,58,237,0.25);
-    }
-    .testimonial-card::before {
-      content: '"';
-      font-family: 'Syne', sans-serif;
-      font-size: 5rem;
-      line-height: 0.8;
-      color: rgba(124,58,237,0.12);
-      position: absolute;
-      top: 20px; left: 24px;
-    }
-    .stars { display: flex; gap: 3px; margin-bottom: 16px; }
-    .star { color: #f59e0b; font-size: 0.9rem; }
-    .testimonial-text { font-size: 0.92rem; color: var(--ink3); line-height: 1.75; margin-bottom: 24px; font-style: italic; }
-    .testimonial-author { display: flex; align-items: center; gap: 12px; }
-    .author-avatar {
-      width: 42px; height: 42px;
-      border-radius: 50%;
-      background: var(--grad);
-      display: flex; align-items: center; justify-content: center;
-      font-weight: 700;
-      font-size: 0.9rem;
-      color: #fff;
-      flex-shrink: 0;
-    }
-    .author-name { font-weight: 700; font-size: 0.9rem; color: var(--ink); }
-    .author-role { font-size: 0.78rem; color: var(--muted); }
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.2rem, 4.5vw, 4rem);
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  color: var(--ink);
+  margin-bottom: 16px;
+}
+.section-title em { font-style: italic; color: var(--gold); }
+.section-title.light { color: var(--white); }
+.section-sub {
+  font-size: 1rem;
+  color: var(--muted);
+  max-width: 520px;
+  line-height: 1.75;
+  font-weight: 300;
+}
+.section-sub.light { color: rgba(250,248,244,0.5); }
+.section-head { margin-bottom: 72px; }
+.section-head.center { text-align: center; }
+.section-head.center .section-sub { margin: 0 auto; }
 
-    /* ── FAQ ── */
-    .faq-list {
-      max-width: 760px;
-      margin: 0 auto;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-    .faq-item {
-      background: var(--white);
-      border: 1px solid rgba(124,58,237,0.1);
-      border-radius: var(--radius);
-      overflow: hidden;
-      transition: border-color 0.3s, transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    .faq-item:hover {
-      transform: translateX(6px);
-      box-shadow: -6px 0 20px rgba(124,58,237,0.1);
-    }
-    .faq-item.open { border-color: rgba(124,58,237,0.3); }
-    .faq-question {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 22px 26px;
-      cursor: pointer;
-      user-select: none;
-      gap: 16px;
-    }
-    .faq-question h4 { font-size: 1rem; font-weight: 600; color: var(--ink); transition: color 0.2s; }
-    .faq-item.open .faq-question h4 { color: var(--accent); }
-    .faq-icon {
-      width: 28px; height: 28px;
-      border-radius: 50%;
-      background: rgba(124,58,237,0.08);
-      display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0;
-      transition: var(--transition);
-      font-size: 1.1rem;
-      color: var(--accent);
-      font-weight: 300;
-    }
-    .faq-item.open .faq-icon {
-      background: var(--grad);
-      color: #fff;
-      transform: rotate(45deg);
-    }
-    .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.4s cubic-bezier(0.4,0,0.2,1); }
-    .faq-item.open .faq-answer { max-height: 300px; }
-    .faq-answer p { padding: 0 26px 22px; font-size: 0.92rem; color: var(--muted); line-height: 1.8; }
+/* ── FEATURED PROJECTS ── */
+.project-block {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  margin-bottom: 100px;
+  background: var(--white);
+  border: 1px solid rgba(13,13,13,0.08);
+  overflow: hidden;
+  border-radius: var(--r2);
+  transition: box-shadow var(--transition);
+}
+.project-block:hover { box-shadow: 0 32px 80px rgba(13,13,13,0.12); }
+.project-block.reverse { direction: rtl; }
+.project-block.reverse > * { direction: ltr; }
 
-    /* ── MODAL ── */
-    .modal-overlay {
-      display: none;
-      position: fixed; inset: 0;
-      background: rgba(10,10,15,0.65);
-      backdrop-filter: blur(10px);
-      z-index: 2000;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-    }
-    .modal-overlay.open { display: flex; }
-    .modal-box {
-      background: var(--white);
-      border-radius: var(--radius-xl);
-      padding: 48px;
-      width: 100%;
-      max-width: 500px;
-      position: relative;
-      animation: modalSlide 0.35s cubic-bezier(0.4,0,0.2,1);
-      box-shadow: 0 40px 80px rgba(0,0,0,0.25);
-    }
-    @keyframes modalSlide {
-      from { opacity: 0; transform: translateY(30px) scale(0.97); }
-      to { opacity: 1; transform: translateY(0) scale(1); }
-    }
-    .modal-close {
-      position: absolute;
-      top: 18px; right: 20px;
-      width: 32px; height: 32px;
-      border-radius: 50%;
-      background: var(--light);
-      border: none;
-      cursor: pointer;
-      font-size: 1.1rem;
-      display: flex; align-items: center; justify-content: center;
-      color: var(--muted);
-      transition: var(--transition);
-    }
-    .modal-close:hover { background: var(--accent); color: #fff; }
-    .modal-box h2 { font-size: 1.9rem; margin-bottom: 6px; letter-spacing: -0.02em; }
-    .modal-box h2 span {
-      background: var(--grad);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    .modal-box .modal-sub { font-size: 0.9rem; color: var(--muted); margin-bottom: 28px; }
-    .modal-box .modal-sub strong { color: var(--accent); }
-    .form-group { display: flex; flex-direction: column; gap: 14px; }
-    .form-group input, .form-group textarea {
-      width: 100%;
-      padding: 13px 16px;
-      border: 1.5px solid rgba(124,58,237,0.15);
-      border-radius: 12px;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.95rem;
-      outline: none;
-      transition: border-color 0.25s, box-shadow 0.25s;
-      background: var(--lighter);
-      color: var(--ink);
-    }
-    .form-group input:focus, .form-group textarea:focus {
-      border-color: var(--accent);
-      box-shadow: 0 0 0 3px rgba(124,58,237,0.12);
-      background: var(--white);
-    }
-    .form-group textarea { resize: none; }
-    .btn-submit {
-      margin-top: 6px;
-      width: 100%;
-      padding: 14px;
-      background: var(--grad);
-      color: #fff;
-      border: none;
-      border-radius: 50px;
-      font-weight: 700;
-      font-size: 0.95rem;
-      cursor: pointer;
-      transition: var(--transition);
-      font-family: 'Syne', sans-serif;
-    }
-    .btn-submit:hover { box-shadow: 0 10px 28px rgba(124,58,237,0.45); transform: scale(1.02); }
+.project-visual {
+  position: relative;
+  overflow: hidden;
+  min-height: 560px;
+}
+.project-visual-bg {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  transition: transform 0.8s cubic-bezier(0.23,1,0.32,1);
+}
+.project-block:hover .project-visual-bg { transform: scale(1.04); }
 
-    /* ── FOOTER ── */
-    footer { background: var(--ink2); color: rgba(255,255,255,0.7); }
-    .footer-main {
-      padding: 80px 6% 60px;
-      display: grid;
-      grid-template-columns: 1.8fr 1fr 1fr;
-      gap: 60px;
-    }
-    .footer-logo-img { height: 70px; width: auto; display: block; margin-bottom: 18px; }
-    .footer-brand p { line-height: 1.75; font-size: 0.92rem; max-width: 340px; }
-    .footer-wa {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      margin-top: 22px;
-      padding: 11px 22px;
-      background: linear-gradient(135deg, #25d366, #128c7e);
-      color: #fff;
-      text-decoration: none;
-      border-radius: 50px;
-      font-weight: 600;
-      font-size: 0.875rem;
-      transition: var(--transition);
-    }
-    .footer-wa:hover { transform: scale(1.04); box-shadow: 0 10px 25px rgba(37,211,102,0.35); }
-    .footer-col h4 {
-      font-size: 0.85rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: #fff;
-      margin-bottom: 20px;
-    }
-    .footer-col ul { list-style: none; }
-    .footer-col li { margin-bottom: 10px; font-size: 0.9rem; }
-    .footer-col a { color: rgba(255,255,255,0.6); text-decoration: none; transition: color 0.2s; }
-    .footer-col a:hover { color: #fff; }
-    .footer-col p { font-size: 0.9rem; margin-bottom: 10px; }
-    .footer-bottom {
-      border-top: 1px solid rgba(255,255,255,0.08);
-      padding: 20px 6%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 0.82rem;
-      color: rgba(255,255,255,0.35);
-      flex-wrap: wrap;
-      gap: 10px;
-    }
+.visual-kokan { background: linear-gradient(145deg, #3d1f00, #6b3a0f, #2a1500); }
+.visual-gc { background: linear-gradient(145deg, #0a1628, #1c3a5e, #0d2340); }
 
-    /* ── WHATSAPP FLOAT ── */
-    .whatsapp-float {
-      position: fixed;
-      right: 22px; bottom: 22px;
-      width: 56px; height: 56px;
-      background: linear-gradient(135deg, #25d366, #128c7e);
-      border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.25);
-      z-index: 3000;
-      transition: var(--transition);
-    }
-    .whatsapp-float:hover { transform: scale(1.1); box-shadow: 0 14px 32px rgba(0,0,0,0.3); }
-    .whatsapp-float svg { width: 28px; height: 28px; fill: #fff; }
+.project-mockup { width: 100%; max-width: 340px; position: relative; z-index: 2; }
 
-    /* ── SCROLL REVEAL ── */
-    .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
-    .reveal.visible { opacity: 1; transform: translateY(0); }
-    .reveal-delay-1 { transition-delay: 0.1s; }
-    .reveal-delay-2 { transition-delay: 0.2s; }
-    .reveal-delay-3 { transition-delay: 0.3s; }
-    .reveal-delay-4 { transition-delay: 0.4s; }
+.browser-frame {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 40px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.05);
+}
+.browser-bar {
+  background: rgba(255,255,255,0.08);
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.browser-dots { display: flex; gap: 5px; }
+.browser-dot { width: 8px; height: 8px; border-radius: 50%; }
+.bd-red { background: #ff5f57; }
+.bd-yellow { background: #febc2e; }
+.bd-green { background: #28c840; }
+.browser-url {
+  flex: 1;
+  background: rgba(255,255,255,0.06);
+  border-radius: 4px;
+  padding: 4px 10px;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem;
+  color: rgba(255,255,255,0.4);
+}
+.browser-content { padding: 0; min-height: 220px; position: relative; overflow: hidden; }
 
-    /* ── 3D TILT ON MOUSE ── */
-    .tilt-card {
-      transform-style: preserve-3d;
-      transition: transform 0.1s ease;
-    }
+.preview-kokan { background: #fdf6ec; padding: 16px; }
+.pk-hero { background: linear-gradient(135deg, #4a1c00, #7a3010); border-radius: 6px; padding: 20px 16px; margin-bottom: 12px; text-align: center; }
+.pk-logo-text { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700; color: #e8c68a; letter-spacing: 0.05em; }
+.pk-tagline { font-size: 0.55rem; color: rgba(232,198,138,0.6); letter-spacing: 0.15em; text-transform: uppercase; margin-top: 4px; font-family: 'DM Mono', monospace; }
+.pk-products { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 10px; }
+.pk-product { background: #fff; border-radius: 5px; padding: 8px 5px; text-align: center; border: 1px solid #f0e0c0; }
+.pk-product-icon { font-size: 1.2rem; display: block; margin-bottom: 3px; }
+.pk-product-name { font-size: 0.45rem; color: #5a3010; font-weight: 600; font-family: 'DM Mono', monospace; text-transform: uppercase; letter-spacing: 0.08em; }
+.pk-cta { background: #4a1c00; color: #e8c68a; text-align: center; border-radius: 5px; padding: 6px; font-size: 0.5rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; font-family: 'DM Mono', monospace; }
 
-    /* ── RESPONSIVE ── */
-    @media (max-width: 1024px) {
-      .process-steps { grid-template-columns: repeat(2, 1fr); }
-      .cards-3d-grid { grid-template-columns: repeat(2, 1fr); }
-      .orbit-section { flex-direction: column; }
-      #orbit-canvas { width: 300px; height: 300px; }
-    }
-    @media (max-width: 768px) {
-      .nav-links { display: none; }
-      .hamburger { display: flex; }
-      .section { padding: 70px 5%; }
-      .hero { padding: 100px 5% 70px; }
-      .hero-stats { gap: 28px; }
-      .stat-number { font-size: 1.5rem; }
-      .about-grid, .why-grid, .footer-main { grid-template-columns: 1fr; gap: 40px; }
-      .about-cards { grid-template-columns: 1fr 1fr; }
-      .process-steps { grid-template-columns: 1fr; gap: 16px; }
-      .testimonials-track { grid-template-columns: 1fr; }
-      .footer-main { padding: 60px 5% 40px; }
-      .modal-box { padding: 32px 24px; }
-      .cards-3d-grid { grid-template-columns: 1fr 1fr; }
-      .orbit-stat-row { grid-template-columns: 1fr 1fr; }
-    }
-    @media (max-width: 480px) {
-      .about-cards { grid-template-columns: 1fr; }
-      .hero h1 { font-size: 2.4rem; }
-      .section-heading { font-size: 1.9rem; }
-      .hero-actions { flex-direction: column; align-items: center; }
-      .hero-stats { flex-wrap: wrap; gap: 24px; }
-      .cards-3d-grid { grid-template-columns: 1fr; }
-    }
-  </style>
+.preview-gc { background: #f0f4f8; padding: 16px; }
+.gc-nav-bar { background: #0a1628; border-radius: 5px 5px 0 0; padding: 8px 12px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+.gc-nav-logo { font-family: 'DM Mono', monospace; font-size: 0.5rem; color: #4fc3f7; font-weight: 500; letter-spacing: 0.1em; }
+.gc-nav-links { display: flex; gap: 6px; }
+.gc-nav-link { font-size: 0.38rem; color: rgba(255,255,255,0.4); font-family: 'DM Mono', monospace; letter-spacing: 0.06em; }
+.gc-hero { background: linear-gradient(135deg, #0d2340, #1c3a5e); border-radius: 5px; padding: 16px 14px; margin-bottom: 10px; }
+.gc-hero-tag { font-size: 0.38rem; color: #4fc3f7; font-family: 'DM Mono', monospace; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 4px; }
+.gc-hero-title { font-family: 'Playfair Display', serif; font-size: 0.72rem; font-weight: 700; color: #fff; line-height: 1.2; margin-bottom: 6px; }
+.gc-hero-sub { font-size: 0.42rem; color: rgba(255,255,255,0.45); line-height: 1.5; }
+.gc-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+.gc-card { background: #fff; border-radius: 5px; padding: 8px 6px; border-top: 2px solid #1c3a5e; }
+.gc-card-icon { font-size: 0.9rem; margin-bottom: 3px; }
+.gc-card-name { font-size: 0.4rem; font-weight: 600; color: #0a1628; font-family: 'DM Mono', monospace; letter-spacing: 0.06em; text-transform: uppercase; }
+
+.project-badge {
+  position: absolute; top: 24px; right: 24px;
+  background: rgba(255,255,255,0.1);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 50px;
+  padding: 6px 14px;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem;
+  color: rgba(255,255,255,0.7);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  z-index: 3;
+}
+
+.project-panel {
+  padding: 52px 48px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 32px;
+}
+
+.project-number {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  color: var(--gold);
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: rgba(184,134,11,0.08);
+  border: 1px solid rgba(184,134,11,0.2);
+  padding: 5px 14px;
+  border-radius: 50px;
+  align-self: flex-start;
+}
+
+.project-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  color: var(--ink);
+}
+.project-industry { font-size: 0.78rem; color: var(--muted); font-family: 'DM Mono', monospace; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 4px; }
+
+.project-section { display: flex; flex-direction: column; gap: 10px; }
+.project-section-label { font-family: 'DM Mono', monospace; font-size: 0.62rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); font-weight: 500; }
+.project-section-text { font-size: 0.92rem; color: var(--ink3); line-height: 1.75; font-weight: 300; }
+
+.project-solution-list { list-style: none; display: flex; flex-direction: column; gap: 7px; }
+.project-solution-list li { font-size: 0.88rem; color: var(--ink3); display: flex; align-items: center; gap: 10px; font-weight: 300; }
+.project-solution-list li::before { content: ''; width: 18px; height: 1.5px; background: var(--gold); flex-shrink: 0; }
+
+.project-results { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.result-pill {
+  background: var(--paper);
+  border: 1px solid rgba(13,13,13,0.08);
+  border-radius: 4px;
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8rem;
+  color: var(--ink3);
+  font-weight: 400;
+}
+.result-pill::before { content: '✓'; font-weight: 700; color: var(--gold); font-size: 0.75rem; }
+
+.tech-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.tech-tag { background: var(--ink); color: rgba(250,248,244,0.7); padding: 4px 12px; border-radius: 3px; font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.08em; }
+
+.project-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--ink);
+  color: var(--paper);
+  padding: 13px 26px;
+  border-radius: 3px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+  transition: background 0.2s, gap 0.2s;
+  border: none;
+  cursor: pointer;
+  font-family: 'Epilogue', sans-serif;
+  align-self: flex-start;
+}
+.project-cta:hover { background: var(--gold); gap: 16px; }
+.project-cta .arrow { font-size: 1rem; transition: transform 0.2s; }
+.project-cta:hover .arrow { transform: translateX(4px); }
+
+/* Nirvana */
+.visual-nirvana { background: linear-gradient(145deg, #1a0505, #5a0e0e, #2d0808); }
+.print-showcase { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; max-width: 340px; position: relative; z-index: 2; }
+.print-item { border-radius: 8px; overflow: hidden; box-shadow: 0 12px 32px rgba(0,0,0,0.5); transition: transform 0.3s ease; }
+.print-item:hover { transform: translateY(-4px) scale(1.02); }
+.print-item.wide { grid-column: span 2; }
+.mock-brochure { background: linear-gradient(135deg, #fff8f0, #fff); padding: 14px; min-height: 130px; display: flex; flex-direction: column; justify-content: space-between; }
+.mock-brochure-header { background: linear-gradient(135deg, #5a0e0e, #8b1a1a); border-radius: 4px; padding: 10px 8px; text-align: center; margin-bottom: 8px; }
+.mock-brochure-logo { font-family: 'Playfair Display', serif; font-size: 0.75rem; font-weight: 700; color: #f0c060; letter-spacing: 0.05em; }
+.mock-brochure-tag { font-size: 0.38rem; color: rgba(240,192,96,0.6); letter-spacing: 0.12em; text-transform: uppercase; font-family: 'DM Mono', monospace; }
+.mock-brochure-body { display: flex; flex-direction: column; gap: 4px; }
+.mock-brochure-line { height: 4px; border-radius: 2px; background: #e8d5c0; }
+.mock-brochure-line.short { width: 60%; }
+.mock-brochure-accent { height: 26px; border-radius: 4px; background: linear-gradient(90deg, #f0c060, #e8a030); margin-top: 6px; display: flex; align-items: center; justify-content: center; }
+.mock-brochure-accent-text { font-size: 0.38rem; font-weight: 700; color: #3a0a0a; letter-spacing: 0.1em; text-transform: uppercase; font-family: 'DM Mono', monospace; }
+.mock-logo { background: #1a0505; min-height: 130px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 7px; padding: 16px; border: 1px solid rgba(240,192,96,0.15); }
+.mock-logo-icon { font-size: 2rem; }
+.mock-logo-name { font-family: 'Playfair Display', serif; font-size: 0.8rem; font-weight: 700; color: #f0c060; letter-spacing: 0.08em; text-align: center; }
+.mock-logo-sub { font-size: 0.38rem; color: rgba(240,192,96,0.4); letter-spacing: 0.18em; text-transform: uppercase; font-family: 'DM Mono', monospace; }
+.mock-logo-divider { width: 30px; height: 1px; background: rgba(240,192,96,0.3); }
+.mock-card { background: linear-gradient(135deg, #3a0a0a, #5a0e0e); min-height: 88px; padding: 12px 14px; display: flex; flex-direction: column; justify-content: space-between; border: 1px solid rgba(240,192,96,0.2); }
+.mock-card-top { display: flex; align-items: flex-start; justify-content: space-between; }
+.mock-card-name { font-family: 'Playfair Display', serif; font-size: 0.6rem; font-weight: 700; color: #f0c060; }
+.mock-card-role { font-size: 0.35rem; color: rgba(240,192,96,0.5); font-family: 'DM Mono', monospace; letter-spacing: 0.08em; text-transform: uppercase; margin-top: 2px; }
+.mock-card-logo-sm { font-size: 0.9rem; }
+.mock-card-bottom { display: flex; flex-direction: column; gap: 2px; }
+.mock-card-info { font-size: 0.35rem; color: rgba(255,255,255,0.4); font-family: 'DM Mono', monospace; letter-spacing: 0.06em; }
+.mock-pos { background: #fff; min-height: 88px; padding: 10px; border: 1px solid #e8d5c0; }
+.mock-pos-header { text-align: center; border-bottom: 1px dashed #c8a888; padding-bottom: 5px; margin-bottom: 5px; }
+.mock-pos-logo { font-family: 'Playfair Display', serif; font-size: 0.55rem; font-weight: 700; color: #5a0e0e; }
+.mock-pos-tag { font-size: 0.32rem; color: #8a5a3a; letter-spacing: 0.1em; font-family: 'DM Mono', monospace; text-transform: uppercase; }
+.mock-pos-row { display: flex; justify-content: space-between; margin-bottom: 3px; }
+.mock-pos-item, .mock-pos-price { font-size: 0.35rem; color: #3a2010; font-family: 'DM Mono', monospace; }
+.mock-pos-total { display: flex; justify-content: space-between; border-top: 1px solid #c8a888; padding-top: 4px; margin-top: 2px; }
+.mock-pos-total-label, .mock-pos-total-val { font-size: 0.38rem; font-weight: 700; color: #5a0e0e; font-family: 'DM Mono', monospace; }
+
+/* ── SERVICES GRID ── */
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: rgba(13,13,13,0.1);
+  border: 1px solid rgba(13,13,13,0.1);
+  border-radius: var(--r2);
+  overflow: hidden;
+}
+.service-item {
+  background: var(--white);
+  padding: 40px 36px;
+  transition: background var(--transition);
+  cursor: default;
+  position: relative;
+  overflow: hidden;
+}
+.service-item::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 0;
+  background: var(--gold);
+  transition: height 0.3s ease;
+}
+.service-item:hover { background: var(--paper); }
+.service-item:hover::after { height: 3px; }
+.service-icon { width: 48px; height: 48px; border-radius: 10px; background: var(--paper2); display: flex; align-items: center; justify-content: center; font-size: 1.4rem; margin-bottom: 20px; transition: background 0.2s; }
+.service-item:hover .service-icon { background: var(--gold); }
+.service-name { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; color: var(--ink); margin-bottom: 8px; }
+.service-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.65; font-weight: 300; }
+
+/* ── PROCESS ── */
+.process-list {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 0;
+  position: relative;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: var(--r2);
+  overflow: hidden;
+}
+.process-item {
+  padding: 36px 24px;
+  border-right: 1px solid rgba(255,255,255,0.06);
+  position: relative;
+  transition: background 0.3s;
+}
+.process-item:last-child { border-right: none; }
+.process-item:hover { background: rgba(255,255,255,0.03); }
+.process-num { font-family: 'DM Mono', monospace; font-size: 0.65rem; color: var(--gold); letter-spacing: 0.15em; margin-bottom: 24px; }
+.process-name { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700; color: var(--white); margin-bottom: 8px; }
+.process-desc { font-size: 0.78rem; color: rgba(250,248,244,0.38); line-height: 1.65; font-weight: 300; }
+
+/* ── WHY SECTION ── */
+.why-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+.why-item {
+  border: 1px solid rgba(13,13,13,0.1);
+  border-radius: var(--r);
+  padding: 32px;
+  background: var(--white);
+  transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+}
+.why-item:hover { transform: translateY(-8px); box-shadow: 0 24px 48px rgba(13,13,13,0.1); border-color: var(--gold); }
+.why-num { font-family: 'Playfair Display', serif; font-size: 2.5rem; font-weight: 900; color: var(--paper3); line-height: 1; margin-bottom: 16px; letter-spacing: -0.04em; }
+.why-title { font-size: 0.95rem; font-weight: 700; color: var(--ink); margin-bottom: 8px; }
+.why-desc { font-size: 0.82rem; color: var(--muted); line-height: 1.65; font-weight: 300; }
+
+/* ── TESTIMONIALS ── */
+.testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.testimonial {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: var(--r2);
+  padding: 36px;
+  position: relative;
+  transition: border-color 0.3s, background 0.3s;
+}
+.testimonial:hover { border-color: rgba(184,134,11,0.4); background: rgba(184,134,11,0.04); }
+.quote-mark { font-family: 'Playfair Display', serif; font-size: 4rem; line-height: 0.8; color: rgba(184,134,11,0.2); margin-bottom: 16px; }
+.stars { color: var(--gold); font-size: 0.85rem; letter-spacing: 2px; margin-bottom: 16px; }
+.testimonial-body { font-size: 0.9rem; color: rgba(250,248,244,0.6); line-height: 1.8; font-style: italic; font-weight: 300; margin-bottom: 28px; }
+.testimonial-author { display: flex; align-items: center; gap: 14px; }
+.author-avatar { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, var(--gold), var(--rust)); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem; color: #fff; flex-shrink: 0; }
+.author-name { font-size: 0.85rem; font-weight: 600; color: var(--white); }
+.author-role { font-size: 0.72rem; color: rgba(255,255,255,0.35); font-family: 'DM Mono', monospace; letter-spacing: 0.06em; }
+
+/* ══════════════════════════════════════
+   ── PRICING SECTION (UPDATED) ──
+══════════════════════════════════════ */
+.pricing-section { background: var(--paper); padding: 100px 5%; }
+
+.pricing-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 48px;
+}
+.ptab {
+  padding: 8px 20px;
+  border-radius: 50px;
+  border: 1.5px solid rgba(13,13,13,0.15);
+  background: transparent;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  transition: all 0.25s;
+  color: var(--ink3);
+  font-family: 'Epilogue', sans-serif;
+}
+.ptab:hover { border-color: var(--gold); color: var(--gold); }
+.ptab.active { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+}
+.price-card {
+  background: var(--white);
+  border: 1.5px solid rgba(13,13,13,0.08);
+  border-radius: var(--r2);
+  padding: 36px 30px;
+  position: relative;
+  transition: transform 0.4s cubic-bezier(0.23,1,0.32,1), box-shadow 0.4s, border-color 0.3s;
+  overflow: hidden;
+}
+.price-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--gold), var(--rust));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.35s ease;
+}
+.price-card:hover::before { transform: scaleX(1); }
+.price-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 30px 60px rgba(13,13,13,0.12);
+  border-color: rgba(184,134,11,0.2);
+}
+.price-card.featured { background: var(--ink); border-color: var(--ink); }
+.price-card.featured::before { transform: scaleX(1); }
+.price-card.featured:hover { box-shadow: 0 30px 60px rgba(13,13,13,0.3); }
+
+.price-card-tag { font-family: 'DM Mono', monospace; font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; }
+.price-card.featured .price-card-tag { color: var(--gold2); }
+
+.price-card-name { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; color: var(--ink); margin-bottom: 4px; }
+.price-card.featured .price-card-name { color: var(--white); }
+
+.price-featured-badge {
+  display: inline-block;
+  background: var(--gold);
+  color: var(--ink);
+  font-size: 0.58rem;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 50px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-family: 'DM Mono', monospace;
+  margin-bottom: 8px;
+}
+
+.price-amount {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.4rem;
+  font-weight: 900;
+  color: var(--gold);
+  letter-spacing: -0.03em;
+  line-height: 1;
+  margin: 16px 0 6px;
+}
+.price-card.featured .price-amount { color: var(--gold2); }
+
+.price-note { font-size: 0.75rem; color: var(--muted); margin-bottom: 20px; font-weight: 300; }
+.price-card.featured .price-note { color: rgba(250,248,244,0.35); }
+
+.price-divider { height: 1px; background: rgba(13,13,13,0.07); margin: 20px 0; }
+.price-card.featured .price-divider { background: rgba(255,255,255,0.08); }
+
+.price-features { list-style: none; display: flex; flex-direction: column; gap: 9px; margin-bottom: 28px; }
+.price-features li { display: flex; align-items: flex-start; gap: 10px; font-size: 0.85rem; color: var(--ink3); font-weight: 300; line-height: 1.5; }
+.price-card.featured .price-features li { color: rgba(250,248,244,0.65); }
+.price-features li::before {
+  content: '';
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  background: rgba(184,134,11,0.15);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'%3E%3Cpath d='M2 5l2.5 2.5 3.5-4' stroke='%23b8860b' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-size: 10px;
+  background-repeat: no-repeat;
+  background-position: center;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.price-card.featured .price-features li::before { background-color: rgba(184,134,11,0.25); }
+
+.price-cta {
+  width: 100%;
+  padding: 12px;
+  background: var(--ink);
+  color: var(--paper);
+  border: none;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+  font-family: 'Epilogue', sans-serif;
+  letter-spacing: 0.04em;
+}
+.price-cta:hover { background: var(--gold); transform: translateY(-1px); }
+.price-card.featured .price-cta { background: var(--gold); color: var(--ink); }
+.price-card.featured .price-cta:hover { background: var(--gold2); }
+
+/* ── CTA SECTION ── */
+.cta-section {
+  background: var(--ink2);
+  padding: 120px 5%;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.cta-section::before {
+  content: 'WEBNOVA';
+  position: absolute;
+  left: 50%; top: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(80px,15vw,200px);
+  font-weight: 900;
+  color: rgba(255,255,255,0.02);
+  letter-spacing: -0.05em;
+  white-space: nowrap;
+  pointer-events: none;
+  user-select: none;
+}
+.cta-inner { position: relative; z-index: 2; }
+.cta-contacts { display: flex; align-items: center; justify-content: center; gap: 40px; flex-wrap: wrap; margin-bottom: 48px; }
+.cta-contact-item { display: flex; align-items: center; gap: 10px; font-family: 'DM Mono', monospace; font-size: 0.82rem; color: rgba(250,248,244,0.5); letter-spacing: 0.06em; }
+.cta-contact-item a { color: rgba(250,248,244,0.7); text-decoration: none; transition: color 0.2s; }
+.cta-contact-item a:hover { color: var(--gold2); }
+
+.btn-primary {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: var(--gold); color: var(--ink);
+  padding: 16px 40px; border-radius: 3px;
+  font-weight: 700; font-size: 0.9rem; letter-spacing: 0.06em;
+  text-decoration: none;
+  transition: background 0.2s, transform 0.2s, gap 0.2s;
+  border: none; cursor: pointer;
+  font-family: 'Epilogue', sans-serif;
+  margin: 0 8px;
+}
+.btn-primary:hover { background: var(--gold2); transform: translateY(-2px); gap: 16px; }
+
+.btn-outline-light {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: transparent; color: var(--white);
+  padding: 15px 38px; border-radius: 3px;
+  font-weight: 600; font-size: 0.9rem; letter-spacing: 0.06em;
+  text-decoration: none;
+  transition: background 0.2s, border-color 0.2s;
+  border: 1px solid rgba(255,255,255,0.2);
+  cursor: pointer;
+  font-family: 'Epilogue', sans-serif;
+  margin: 0 8px;
+}
+.btn-outline-light:hover { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.4); }
+
+/* ── FOOTER ── */
+footer { background: var(--ink); padding: 60px 5% 30px; }
+.footer-top {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  gap: 40px; padding-bottom: 40px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  flex-wrap: wrap;
+}
+.footer-logo { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 900; color: var(--white); letter-spacing: -0.02em; }
+.footer-logo span { color: var(--gold); }
+.footer-tagline { font-size: 0.82rem; color: rgba(255,255,255,0.3); margin-top: 6px; font-weight: 300; }
+.footer-links { display: flex; gap: 32px; flex-wrap: wrap; align-items: center; }
+.footer-links a { font-size: 0.78rem; color: rgba(255,255,255,0.35); text-decoration: none; letter-spacing: 0.06em; font-family: 'DM Mono', monospace; transition: color 0.2s; }
+.footer-links a:hover { color: var(--gold2); }
+.footer-bottom { display: flex; justify-content: space-between; align-items: center; padding-top: 30px; flex-wrap: wrap; gap: 10px; }
+.footer-copy { font-size: 0.75rem; color: rgba(255,255,255,0.2); font-family: 'DM Mono', monospace; letter-spacing: 0.06em; }
+
+/* ── WA FLOAT ── */
+.wa-float {
+  position: fixed; bottom: 24px; right: 24px;
+  width: 54px; height: 54px;
+  background: linear-gradient(135deg, #25d366, #128c7e);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  z-index: 2000;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+  transition: transform 0.2s, box-shadow 0.2s;
+  text-decoration: none;
+}
+.wa-float:hover { transform: scale(1.1); box-shadow: 0 12px 32px rgba(0,0,0,0.3); }
+.wa-float svg { width: 26px; height: 26px; fill: #fff; }
+
+/* ── MODAL ── */
+.modal-overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(13,13,13,0.75);
+  backdrop-filter: blur(12px);
+  z-index: 3000;
+  justify-content: center; align-items: center;
+  padding: 20px;
+}
+.modal-overlay.open { display: flex; }
+.modal-box {
+  background: var(--white);
+  border-radius: var(--r2);
+  padding: 52px;
+  width: 100%; max-width: 480px;
+  position: relative;
+  animation: modalIn 0.35s cubic-bezier(0.4,0,0.2,1);
+  box-shadow: 0 40px 80px rgba(0,0,0,0.3);
+}
+@keyframes modalIn {
+  from { opacity: 0; transform: translateY(28px) scale(0.97); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+.modal-close { position: absolute; top: 20px; right: 22px; background: var(--paper2); border: none; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; font-size: 1rem; display: flex; align-items: center; justify-content: center; color: var(--muted); transition: background 0.2s, color 0.2s; }
+.modal-close:hover { background: var(--ink); color: #fff; }
+.modal-title { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 900; letter-spacing: -0.03em; color: var(--ink); margin-bottom: 4px; }
+.modal-title span { color: var(--gold); font-style: italic; }
+.modal-sub { font-size: 0.85rem; color: var(--muted); margin-bottom: 28px; font-weight: 300; }
+.modal-sub strong { color: var(--gold); font-style: normal; }
+.form-group { display: flex; flex-direction: column; gap: 12px; }
+.form-group input, .form-group textarea {
+  width: 100%; padding: 12px 16px;
+  border: 1.5px solid rgba(13,13,13,0.12);
+  border-radius: 6px;
+  font-family: 'Epilogue', sans-serif;
+  font-size: 0.92rem; outline: none;
+  background: var(--paper); color: var(--ink);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.form-group input:focus, .form-group textarea:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(184,134,11,0.1); background: var(--white); }
+.form-group textarea { resize: none; }
+.btn-modal-submit { margin-top: 4px; width: 100%; padding: 13px; background: var(--ink); color: var(--paper); border: none; border-radius: 4px; font-weight: 700; font-size: 0.9rem; cursor: pointer; transition: background 0.2s, transform 0.2s; font-family: 'Epilogue', sans-serif; letter-spacing: 0.04em; }
+.btn-modal-submit:hover { background: var(--gold); transform: translateY(-1px); }
+
+/* ── REVEAL ── */
+.reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.reveal.visible { opacity: 1; transform: none; }
+.rd1 { transition-delay: 0.1s; }
+.rd2 { transition-delay: 0.2s; }
+.rd3 { transition-delay: 0.3s; }
+.rd4 { transition-delay: 0.4s; }
+.rd5 { transition-delay: 0.5s; }
+.rd6 { transition-delay: 0.6s; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 1100px) {
+  .process-list { grid-template-columns: repeat(3, 1fr); }
+  .process-item { border-bottom: 1px solid rgba(255,255,255,0.06); }
+  .why-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 900px) {
+  .project-block { grid-template-columns: 1fr; }
+  .project-block.reverse { direction: ltr; }
+  .project-visual { min-height: 380px; }
+  .services-grid { grid-template-columns: repeat(2, 1fr); }
+  .testimonials-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+  .hamburger { display: flex; }
+  .section { padding: 70px 5%; }
+  .hero { padding: 120px 5% 70px; }
+  .services-grid { grid-template-columns: 1fr; }
+  .why-grid { grid-template-columns: 1fr 1fr; }
+  .process-list { grid-template-columns: 1fr 1fr; }
+  .project-panel { padding: 36px 28px; }
+  .hero-stats-mini { gap: 20px; }
+}
+@media (max-width: 520px) {
+  .why-grid { grid-template-columns: 1fr; }
+  .process-list { grid-template-columns: 1fr; }
+  .hero h1 { font-size: 2.6rem; }
+  .hero-meta { flex-direction: column; gap: 24px; }
+  .footer-top { flex-direction: column; }
+  .modal-box { padding: 32px 24px; }
+  .project-results { grid-template-columns: 1fr; }
+  .cta-contacts { flex-direction: column; gap: 16px; }
+  .pricing-grid { grid-template-columns: 1fr; }
+}
+</style>
 </head>
 <body>
 
 <!-- NAV -->
-<nav class="nav" id="mainNav">
-  <a href="#"><img src="logo.png" alt="WebNova" class="logo-img"></a>
+<nav id="mainNav">
+  <a href="#" class="nav-logo">Web<span>Nova</span></a>
   <div class="nav-links" id="navLinks">
-    <a href="#about">About</a>
-    <a href="#process">Process</a>
+    <a href="#projects">Work</a>
     <a href="#services">Services</a>
-    <a href="#faq">FAQ</a>
-    <button class="btn-cta" onclick="openModal('Free Consultation')">Get Free Consultation</button>
+    <a href="#pricing">Pricing</a>
+    <a href="#process">Process</a>
+    <a href="#why">Why Us</a>
+    <a href="https://webnova.co.in" target="_blank">Main Site</a>
+    <a href="#contact" class="nav-cta">Start a Project</a>
   </div>
   <button class="hamburger" id="hamburger" aria-label="Menu">
     <span></span><span></span><span></span>
@@ -1330,208 +1228,524 @@
 
 <!-- Mobile Menu -->
 <div class="mobile-menu" id="mobileMenu">
-  <a href="#about" onclick="closeMobileMenu()">About</a>
-  <a href="#process" onclick="closeMobileMenu()">Process</a>
+  <a href="#projects" onclick="closeMobileMenu()">Work</a>
   <a href="#services" onclick="closeMobileMenu()">Services</a>
-  <a href="#faq" onclick="closeMobileMenu()">FAQ</a>
-  <button class="btn-cta" onclick="closeMobileMenu(); openModal('Free Consultation')">Get Free Consultation</button>
+  <a href="#pricing" onclick="closeMobileMenu()">Pricing</a>
+  <a href="#process" onclick="closeMobileMenu()">Process</a>
+  <a href="#contact" onclick="closeMobileMenu()">Contact</a>
 </div>
 
 <!-- HERO -->
 <header class="hero">
-  <canvas id="hero-canvas"></canvas>
-  <div class="hero-bg"></div>
+  <div class="hero-bg-number">25</div>
+  <div class="hero-line"></div>
   <div class="hero-content">
-    <div class="hero-badge">Currently accepting new clients</div>
-    <h1>We Build <span class="grad-text">Digital</span><br>Experiences That Convert</h1>
-    <p>Custom websites, branding, SEO & growth solutions crafted for businesses that are serious about scaling online.</p>
-    <div class="hero-actions">
-      <button class="btn-hero-primary" onclick="document.getElementById('services').scrollIntoView({behavior:'smooth'})">Explore Services</button>
-      <button class="btn-hero-outline" onclick="openModal('Free Consultation')">Get Free Consultation</button>
-    </div>
-    <div class="hero-stats">
-      <div class="stat-item"><span class="stat-number">50+</span><span class="stat-label">Projects Delivered</span></div>
-      <div class="stat-item"><span class="stat-number">100%</span><span class="stat-label">Custom Work</span></div>
-      <div class="stat-item"><span class="stat-number">3 Days</span><span class="stat-label">Avg. Delivery</span></div>
+    <div class="hero-eyebrow">WebNova — Selected Work</div>
+    <h1>We Don't Build<br><em>Templates.</em><br>We Build <span class="outlined">Brands.</span></h1>
+    <div class="hero-meta">
+      <p class="hero-desc">25+ projects across food, hospitality, industrial, retail, and more — digital experiences engineered to establish trust, generate leads, and grow businesses across India.</p>
+      <div class="hero-stats-mini">
+        <div class="hero-stat-mini"><strong>25+</strong><span>Live Projects</span></div>
+        <div class="hero-stat-mini"><strong>100%</strong><span>Custom</span></div>
+        <div class="hero-stat-mini"><strong>50+</strong><span>Total Clients</span></div>
+      </div>
     </div>
   </div>
+  <div class="hero-scroll">Scroll to explore</div>
 </header>
 
-<!-- 3D FLOATING CARDS -->
-<section class="cards-3d-section">
-  <div class="cards-3d-grid" id="cards3d">
-    <div class="card-3d" id="c3d-1"><span class="card-3d-icon">🎯</span><h4>Performance First</h4><p>Every site optimised for speed, SEO, and real conversions.</p></div>
-    <div class="card-3d" id="c3d-2"><span class="card-3d-icon">🎨</span><h4>Custom Design</h4><p>No templates. Every pixel crafted for your brand.</p></div>
-    <div class="card-3d" id="c3d-3"><span class="card-3d-icon">📱</span><h4>Mobile Ready</h4><p>Looks and works perfectly on every screen size.</p></div>
-    <div class="card-3d" id="c3d-4"><span class="card-3d-icon">🚀</span><h4>Fast Delivery</h4><p>Typical turnaround of 3–7 days, no compromise.</p></div>
+<!-- TICKER -->
+<div class="ticker-wrap" aria-hidden="true">
+  <div class="ticker-inner" id="ticker">
+    <span class="ticker-item">Custom Website Design <span class="ticker-sep">—</span></span>
+    <span class="ticker-item">E-Commerce Solutions <span class="ticker-sep">—</span></span>
+    <span class="ticker-item">Brand Identity <span class="ticker-sep">—</span></span>
+    <span class="ticker-item">Google Business Profile <span class="ticker-sep">—</span></span>
+    <span class="ticker-item">Logo Design <span class="ticker-sep">—</span></span>
+    <span class="ticker-item">Brochure Design <span class="ticker-sep">—</span></span>
+    <span class="ticker-item">Visiting Cards <span class="ticker-sep">—</span></span>
+    <span class="ticker-item">POS Bill Design <span class="ticker-sep">—</span></span>
+    <span class="ticker-item">Local SEO <span class="ticker-sep">—</span></span>
+    <span class="ticker-item">Social Media Marketing <span class="ticker-sep">—</span></span>
+    <span class="ticker-item">Web Applications <span class="ticker-sep">—</span></span>
+    <span class="ticker-item">Fast 3-Day Delivery <span class="ticker-sep">—</span></span>
+    <span class="ticker-item">Made in India <span class="ticker-sep">—</span></span>
+    <span class="ticker-item">Custom Website Design <span class="ticker-sep">—</span></span>
+    <span class="ticker-item">E-Commerce Solutions <span class="ticker-sep">—</span></span>
+    <span class="ticker-item">Brand Identity <span class="ticker-sep">—</span></span>
+    <span class="ticker-item">Google Business Profile <span class="ticker-sep">—</span></span>
+    <span class="ticker-item">Logo Design <span class="ticker-sep">—</span></span>
+    <span class="ticker-item">Brochure Design <span class="ticker-sep">—</span></span>
+    <span class="ticker-item">Visiting Cards <span class="ticker-sep">—</span></span>
+    <span class="ticker-item">POS Bill Design <span class="ticker-sep">—</span></span>
+    <span class="ticker-item">Local SEO <span class="ticker-sep">—</span></span>
+    <span class="ticker-item">Social Media Marketing <span class="ticker-sep">—</span></span>
+    <span class="ticker-item">Web Applications <span class="ticker-sep">—</span></span>
+    <span class="ticker-item">Fast 3-Day Delivery <span class="ticker-sep">—</span></span>
+    <span class="ticker-item">Made in India <span class="ticker-sep">—</span></span>
   </div>
-</section>
+</div>
 
-<!-- ABOUT -->
-<section id="about" class="section section-alt">
-  <div class="section-header reveal">
-    <div class="section-tag">About WebNova</div>
-    <h2 class="section-heading">We don't build templates.<br>We build brands.</h2>
-    <p class="section-sub">WebNova is a digital solutions agency focused on clarity-driven, performance-first experiences that help businesses grow.</p>
+<!-- PROJECTS -->
+<section id="projects" class="section section-alt">
+  <div class="section-head reveal">
+    <div class="label">Selected Work</div>
+    <h2 class="section-title">Work That<br><em>Speaks.</em></h2>
+    <p class="section-sub">25+ projects delivered. Here are three that show the range — from food heritage to industrial manufacturing to restaurant branding.</p>
   </div>
-  <div class="about-grid">
-    <div class="about-text reveal">
-      <p>Most agencies hand you a cookie-cutter template and call it a website. We're different. Every project at WebNova starts with deep understanding of your business, your customers, and your goals.</p>
-      <p>From a single landing page to a full e-commerce platform — we craft digital solutions that convert visitors into customers and drive real, measurable growth.</p>
-      <p>We work with businesses across India, bringing big-agency quality at honest, transparent prices.</p>
-    </div>
-    <div class="about-cards">
-      <div class="about-card reveal reveal-delay-1"><div class="about-card-icon">🎯</div><h4>Performance First</h4><p>Every site we build is optimised for speed, SEO, and conversions.</p></div>
-      <div class="about-card reveal reveal-delay-2"><div class="about-card-icon">🎨</div><h4>Custom Design</h4><p>No templates. Every pixel crafted for your brand identity.</p></div>
-      <div class="about-card reveal reveal-delay-3"><div class="about-card-icon">📱</div><h4>Mobile Ready</h4><p>Looks and works perfectly on every screen size.</p></div>
-      <div class="about-card reveal reveal-delay-4"><div class="about-card-icon">🚀</div><h4>Fast Delivery</h4><p>Typical turnaround of 3–7 days without compromising quality.</p></div>
-    </div>
-  </div>
-</section>
 
-<!-- PROCESS -->
-<section id="process" class="section">
-  <div class="section-header center reveal">
-    <div class="section-tag">How We Work</div>
-    <h2 class="section-heading">Simple process,<br>exceptional results</h2>
-    <p class="section-sub">From first call to final launch — we keep things transparent, fast, and stress-free.</p>
+  <!-- PROJECT 1: KOKAN MEVA -->
+  <div class="project-block reveal">
+    <div class="project-visual">
+      <div class="project-visual-bg visual-kokan">
+        <div class="project-mockup">
+          <div class="browser-frame">
+            <div class="browser-bar">
+              <div class="browser-dots">
+                <div class="browser-dot bd-red"></div>
+                <div class="browser-dot bd-yellow"></div>
+                <div class="browser-dot bd-green"></div>
+              </div>
+              <div class="browser-url">kokanmeva.in</div>
+            </div>
+            <div class="browser-content">
+              <div class="preview-kokan">
+                <div class="pk-hero">
+                  <div class="pk-logo-text">🌴 Kokan Meva</div>
+                  <div class="pk-tagline">Pure Konkan Goodness — Direct from Source</div>
+                </div>
+                <div class="pk-products">
+                  <div class="pk-product"><span class="pk-product-icon">🥭</span><div class="pk-product-name">Alphonso Mango</div></div>
+                  <div class="pk-product"><span class="pk-product-icon">🥥</span><div class="pk-product-name">Kokum Products</div></div>
+                  <div class="pk-product"><span class="pk-product-icon">🐟</span><div class="pk-product-name">Dried Fish</div></div>
+                </div>
+                <div class="pk-cta">Shop Now → Free Delivery Above ₹500</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="project-badge">Food & FMCG</div>
+    </div>
+    <div class="project-panel">
+      <div class="project-number">Website & Digital Commerce</div>
+      <div>
+        <div class="project-title">Kokan Meva</div>
+        <div class="project-industry">Traditional Products · Digital Commerce</div>
+      </div>
+      <div class="project-section">
+        <div class="project-section-label">The Challenge</div>
+        <div class="project-section-text">Kokan Meva needed a professional online presence that honoured its authentic Konkan heritage — communicating warmth and tradition — while making products effortlessly discoverable and purchasable for modern, urban customers.</div>
+      </div>
+      <div class="project-section">
+        <div class="project-section-label">Our Solution</div>
+        <ul class="project-solution-list">
+          <li>Custom website design rooted in Konkan visual identity</li>
+          <li>Product showcase system with rich imagery</li>
+          <li>Mobile-first responsive development</li>
+          <li>WhatsApp ordering & lead integration</li>
+          <li>Brand-aligned storytelling &amp; copywriting</li>
+        </ul>
+      </div>
+      <div class="project-section">
+        <div class="project-section-label">Impact &amp; Results</div>
+        <div class="project-results">
+          <div class="result-pill">Stronger Brand Identity</div>
+          <div class="result-pill">Better Product Presentation</div>
+          <div class="result-pill">Improved Mobile Experience</div>
+          <div class="result-pill">Higher Customer Trust</div>
+        </div>
+      </div>
+      <div class="project-section">
+        <div class="project-section-label">Technologies Used</div>
+        <div class="tech-tags">
+          <span class="tech-tag">HTML5</span>
+          <span class="tech-tag">CSS3</span>
+          <span class="tech-tag">JavaScript</span>
+          <span class="tech-tag">Responsive Design</span>
+          <span class="tech-tag">WhatsApp API</span>
+        </div>
+      </div>
+      <button class="project-cta" onclick="openModal('Kokan Meva – Style Project')">Discuss a Similar Project <span class="arrow">→</span></button>
+    </div>
   </div>
-  <div class="process-steps">
-    <div class="process-step reveal reveal-delay-1"><div class="step-num">01</div><h4>Discovery Call</h4><p>We learn about your business, goals, and target audience. No forms — just a direct conversation via WhatsApp or call.</p></div>
-    <div class="process-step reveal reveal-delay-2"><div class="step-num">02</div><h4>Strategy & Proposal</h4><p>We put together a clear plan — what we'll build, how long it'll take, and the exact cost. No hidden charges.</p></div>
-    <div class="process-step reveal reveal-delay-3"><div class="step-num">03</div><h4>Design & Build</h4><p>We get to work. You'll see progress updates and have the chance to share feedback before final delivery.</p></div>
-    <div class="process-step reveal reveal-delay-4"><div class="step-num">04</div><h4>Launch & Grow</h4><p>We go live together. Post-launch, we're available for support, updates, and long-term growth partnerships.</p></div>
+
+  <!-- PROJECT 2: GC THERMAL SYSTEMS -->
+  <div class="project-block reverse reveal">
+    <div class="project-visual">
+      <div class="project-visual-bg visual-gc">
+        <div class="project-mockup">
+          <div class="browser-frame">
+            <div class="browser-bar">
+              <div class="browser-dots">
+                <div class="browser-dot bd-red"></div>
+                <div class="browser-dot bd-yellow"></div>
+                <div class="browser-dot bd-green"></div>
+              </div>
+              <div class="browser-url">gcthermalsystems.com</div>
+            </div>
+            <div class="browser-content">
+              <div class="preview-gc">
+                <div class="gc-nav-bar">
+                  <div class="gc-nav-logo">GC THERMAL SYSTEMS</div>
+                  <div class="gc-nav-links">
+                    <span class="gc-nav-link">Products</span>
+                    <span class="gc-nav-link">Services</span>
+                    <span class="gc-nav-link">Contact</span>
+                  </div>
+                </div>
+                <div class="gc-hero">
+                  <div class="gc-hero-tag">Industrial · Manufacturing · Engineering</div>
+                  <div class="gc-hero-title">Precision Thermal<br>Engineering Solutions</div>
+                  <div class="gc-hero-sub">Industrial heating systems, boilers &amp; thermal processing for manufacturing excellence</div>
+                </div>
+                <div class="gc-cards">
+                  <div class="gc-card"><div class="gc-card-icon">🏭</div><div class="gc-card-name">Industrial Boilers</div></div>
+                  <div class="gc-card"><div class="gc-card-icon">🔥</div><div class="gc-card-name">Thermal Systems</div></div>
+                  <div class="gc-card"><div class="gc-card-icon">⚙️</div><div class="gc-card-name">Engineering</div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="project-badge">Industrial Manufacturing</div>
+    </div>
+    <div class="project-panel">
+      <div class="project-number">Corporate Website & SEO</div>
+      <div>
+        <div class="project-title">GC Thermal Systems</div>
+        <div class="project-industry">Industrial Manufacturing · Corporate</div>
+      </div>
+      <div class="project-section">
+        <div class="project-section-label">The Challenge</div>
+        <div class="project-section-text">GC Thermal Systems needed to present highly technical industrial products and engineering services in a professional format that immediately communicates credibility — and converts qualified B2B visitors into business inquiries.</div>
+      </div>
+      <div class="project-section">
+        <div class="project-section-label">Our Solution</div>
+        <ul class="project-solution-list">
+          <li>Corporate-grade website architecture &amp; design</li>
+          <li>Product &amp; service catalogue with structured layout</li>
+          <li>Lead generation forms with inquiry workflow</li>
+          <li>SEO-friendly technical architecture</li>
+          <li>Performance optimisation for fast load times</li>
+        </ul>
+      </div>
+      <div class="project-section">
+        <div class="project-section-label">Impact &amp; Results</div>
+        <div class="project-results">
+          <div class="result-pill">Professional Corporate Presence</div>
+          <div class="result-pill">Improved Product Visibility</div>
+          <div class="result-pill">Better Inquiry Management</div>
+          <div class="result-pill">Stronger Digital Credibility</div>
+        </div>
+      </div>
+      <div class="project-section">
+        <div class="project-section-label">Technologies Used</div>
+        <div class="tech-tags">
+          <span class="tech-tag">Modern Frontend</span>
+          <span class="tech-tag">Responsive Design</span>
+          <span class="tech-tag">SEO Architecture</span>
+          <span class="tech-tag">Performance Opt.</span>
+        </div>
+      </div>
+      <button class="project-cta" onclick="openModal('GC Thermal – Style Project')">Discuss a Similar Project <span class="arrow">→</span></button>
+    </div>
+  </div>
+
+  <!-- PROJECT 3: NIRVANA RESTAURANT -->
+  <div class="project-block reveal">
+    <div class="project-visual">
+      <div class="project-visual-bg visual-nirvana">
+        <div class="print-showcase">
+          <div class="print-item wide">
+            <div class="mock-brochure">
+              <div class="mock-brochure-header">
+                <div class="mock-brochure-logo">🍽️ Nirvana Restaurant</div>
+                <div class="mock-brochure-tag">Fine Dining · Est. in India</div>
+              </div>
+              <div class="mock-brochure-body">
+                <div class="mock-brochure-line"></div>
+                <div class="mock-brochure-line short"></div>
+                <div class="mock-brochure-line"></div>
+                <div class="mock-brochure-accent"><span class="mock-brochure-accent-text">Reserve Your Table · +91 XXXXX XXXXX</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="print-item">
+            <div class="mock-logo">
+              <div class="mock-logo-icon">🪷</div>
+              <div class="mock-logo-divider"></div>
+              <div class="mock-logo-name">NIRVANA</div>
+              <div class="mock-logo-sub">Restaurant &amp; Bar</div>
+            </div>
+          </div>
+          <div class="print-item">
+            <div class="mock-card">
+              <div class="mock-card-top">
+                <div>
+                  <div class="mock-card-name">Head Chef</div>
+                  <div class="mock-card-role">Nirvana Restaurant</div>
+                </div>
+                <div class="mock-card-logo-sm">🪷</div>
+              </div>
+              <div class="mock-card-bottom">
+                <div class="mock-card-info">📞 +91 XXXXX XXXXX</div>
+                <div class="mock-card-info">📍 Your City, India</div>
+                <div class="mock-card-info">🌐 nirvanarest.in</div>
+              </div>
+            </div>
+          </div>
+          <div class="print-item">
+            <div class="mock-pos">
+              <div class="mock-pos-header">
+                <div class="mock-pos-logo">🪷 NIRVANA</div>
+                <div class="mock-pos-tag">Tax Invoice / Bill</div>
+              </div>
+              <div class="mock-pos-row"><span class="mock-pos-item">Butter Paneer</span><span class="mock-pos-price">₹320</span></div>
+              <div class="mock-pos-row"><span class="mock-pos-item">Dal Makhani</span><span class="mock-pos-price">₹240</span></div>
+              <div class="mock-pos-row"><span class="mock-pos-item">Naan ×2</span><span class="mock-pos-price">₹80</span></div>
+              <div class="mock-pos-total"><span class="mock-pos-total-label">TOTAL</span><span class="mock-pos-total-val">₹640</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="project-badge">Restaurant &amp; Hospitality</div>
+    </div>
+    <div class="project-panel">
+      <div class="project-number">Brand Identity & Print Design</div>
+      <div>
+        <div class="project-title">Nirvana Restaurant</div>
+        <div class="project-industry">Food & Hospitality · Print & Brand Identity</div>
+      </div>
+      <div class="project-section">
+        <div class="project-section-label">The Challenge</div>
+        <div class="project-section-text">Nirvana Restaurant needed a cohesive brand identity across every customer touchpoint — from the first impression on a visiting card to the final moment of a printed bill. Everything had to feel premium, consistent, and unmistakably theirs.</div>
+      </div>
+      <div class="project-section">
+        <div class="project-section-label">Our Solution</div>
+        <ul class="project-solution-list">
+          <li>Custom logo design with full brand identity system</li>
+          <li>Professionally designed restaurant brochures</li>
+          <li>Branded visiting cards for staff &amp; management</li>
+          <li>Custom POS billing design for dine-in &amp; takeaway</li>
+          <li>Consistent typography, colour palette &amp; print specs</li>
+        </ul>
+      </div>
+      <div class="project-section">
+        <div class="project-section-label">Impact &amp; Results</div>
+        <div class="project-results">
+          <div class="result-pill">Unified Brand Identity</div>
+          <div class="result-pill">Professional Print Collateral</div>
+          <div class="result-pill">Stronger Guest Impression</div>
+          <div class="result-pill">Consistent Visual Language</div>
+        </div>
+      </div>
+      <div class="project-section">
+        <div class="project-section-label">Deliverables</div>
+        <div class="tech-tags">
+          <span class="tech-tag">Logo Design</span>
+          <span class="tech-tag">Brochure Design</span>
+          <span class="tech-tag">Visiting Cards</span>
+          <span class="tech-tag">POS Bill Design</span>
+          <span class="tech-tag">Brand Guidelines</span>
+        </div>
+      </div>
+      <button class="project-cta" onclick="openModal('Nirvana – Style Branding Project')">Discuss a Similar Project <span class="arrow">→</span></button>
+    </div>
   </div>
 </section>
 
 <!-- SERVICES -->
-<section id="services" class="section section-alt">
-  <div class="section-header center reveal">
-    <div class="section-tag">Services & Pricing</div>
-    <h2 class="section-heading">Transparent pricing.<br>No surprises.</h2>
-    <p class="section-sub">Clear packages built for every stage of your business — from fresh start to full scale.</p>
+<section id="services" class="section">
+  <div class="section-head center reveal">
+    <div class="label">What We Deliver</div>
+    <h2 class="section-title">Every Service.<br><em>From Scratch.</em></h2>
+    <p class="section-sub">No templates. No shortcuts. Every deliverable is built specifically for your business and your customers.</p>
   </div>
-  <div class="tabs-wrap" id="tabsWrap"></div>
-  <div class="pricing-grid" id="service-grid"></div>
-</section>
-
-<!-- 3D ORBIT / WHY SECTION -->
-<section class="orbit-section" id="why-webnova">
-  <canvas id="orbit-canvas"></canvas>
-  <div class="orbit-text">
-    <div class="section-tag" style="background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.7)">Why WebNova</div>
-    <h2 class="section-heading">Good design<br>builds trust.</h2>
-    <p class="section-sub">Great design builds businesses. We obsess over every pixel, every interaction, every conversion point.</p>
-    <div class="orbit-stat-row">
-      <div class="orbit-stat"><strong>50+</strong><span>Happy Clients</span></div>
-      <div class="orbit-stat"><strong>4.9★</strong><span>Avg Rating</span></div>
-      <div class="orbit-stat"><strong>3 Days</strong><span>Turnaround</span></div>
+  <div class="services-grid reveal">
+    <div class="service-item">
+      <div class="service-icon">🌐</div>
+      <div class="service-name">Business Websites</div>
+      <div class="service-desc">Professional websites designed to establish trust and generate consistent inbound leads from day one.</div>
+    </div>
+    <div class="service-item">
+      <div class="service-icon">🛒</div>
+      <div class="service-name">E-Commerce Stores</div>
+      <div class="service-desc">Online stores optimised for conversions — with payment gateway, product catalogue, and order management.</div>
+    </div>
+    <div class="service-item">
+      <div class="service-icon">🏗️</div>
+      <div class="service-name">Corporate & Industrial</div>
+      <div class="service-desc">Structured platforms built to communicate expertise, showcase products, and generate B2B inquiries.</div>
+    </div>
+    <div class="service-item">
+      <div class="service-icon">⚙️</div>
+      <div class="service-name">Web Applications</div>
+      <div class="service-desc">Custom dashboards, admin panels, booking systems, and business automation tools built to your specs.</div>
+    </div>
+    <div class="service-item">
+      <div class="service-icon">✦</div>
+      <div class="service-name">Brand Identity</div>
+      <div class="service-desc">Logos, colour palettes, and brand kits — complete visual identity systems that distinguish you from the crowd.</div>
+    </div>
+    <div class="service-item">
+      <div class="service-icon">📍</div>
+      <div class="service-name">Google Business & Local SEO</div>
+      <div class="service-desc">GBP setup, optimisation, and local SEO that puts your business in front of customers searching in your city.</div>
+    </div>
+    <div class="service-item">
+      <div class="service-icon">🖨️</div>
+      <div class="service-name">Print & Brand Collateral</div>
+      <div class="service-desc">Brochures, visiting cards, menus, POS bills — every printed touchpoint designed to leave an impression.</div>
     </div>
   </div>
 </section>
 
-<!-- WHY POINTS -->
-<section class="section section-alt">
+<!-- ══════════════════════════════════════
+     PRICING SECTION — UPDATED PRICES
+══════════════════════════════════════ -->
+<section id="pricing" class="pricing-section">
+  <div class="section-head center reveal">
+    <div class="label">Transparent Pricing</div>
+    <h2 class="section-title">Clear Packages.<br><em>No Hidden Costs.</em></h2>
+    <p class="section-sub">Every price is fixed. What you see is what you pay — no surprises on delivery day.</p>
+  </div>
+
+  <div class="pricing-tabs" id="pricingTabs">
+    <button class="ptab active" onclick="showPricing('web', this)">Websites</button>
+    <button class="ptab" onclick="showPricing('ecommerce', this)">E-Commerce</button>
+    <button class="ptab" onclick="showPricing('webapp', this)">Web Apps</button>
+    <button class="ptab" onclick="showPricing('social', this)">Social Media</button>
+    <button class="ptab" onclick="showPricing('branding', this)">Branding</button>
+    <button class="ptab" onclick="showPricing('gbp', this)">Google Business</button>
+    <button class="ptab" onclick="showPricing('bundles', this)">Bundle Deals</button>
+  </div>
+
+  <div class="pricing-grid" id="pricingGrid"></div>
+</section>
+
+<!-- PROCESS -->
+<section id="process" class="section section-dark">
+  <div class="section-head center reveal">
+    <div class="label light">How We Work</div>
+    <h2 class="section-title light">Six Steps to a<br><em>Live Website.</em></h2>
+    <p class="section-sub light">From first conversation to launch day — every step is clear, fast, and communicated directly to you.</p>
+  </div>
+  <div class="process-list reveal">
+    <div class="process-item"><div class="process-num">// 01</div><div class="process-name">Discovery</div><div class="process-desc">Understanding your business, goals, and audience through a direct WhatsApp or video call.</div></div>
+    <div class="process-item"><div class="process-num">// 02</div><div class="process-name">Strategy</div><div class="process-desc">Clear plan — architecture, timeline, and exact pricing. No hidden charges, ever.</div></div>
+    <div class="process-item"><div class="process-num">// 03</div><div class="process-name">Design</div><div class="process-desc">Visually engaging, brand-aligned interfaces crafted with intent and purpose.</div></div>
+    <div class="process-item"><div class="process-num">// 04</div><div class="process-name">Development</div><div class="process-desc">Clean, responsive, scalable code built for performance and long-term growth.</div></div>
+    <div class="process-item"><div class="process-num">// 05</div><div class="process-name">Testing</div><div class="process-desc">Performance, cross-device, and security checks before anything goes live.</div></div>
+    <div class="process-item" style="border-right:none"><div class="process-num">// 06</div><div class="process-name">Launch</div><div class="process-desc">Go live together, with post-launch support and growth partnership available.</div></div>
+  </div>
+</section>
+
+<!-- WHY US -->
+<section id="why" class="section section-alt">
+  <div class="section-head center reveal">
+    <div class="label">Why WebNova</div>
+    <h2 class="section-title">Businesses Choose Us<br>for <em>Good Reasons.</em></h2>
+    <p class="section-sub">We're not the cheapest option. We're the most honest, transparent, and results-focused one.</p>
+  </div>
   <div class="why-grid">
-    <div class="why-visual reveal">
-      <div class="why-main-card tilt-card" id="whyMainCard">
-        <h3>Business-first<br>digital thinking.</h3>
-        <p style="margin-top:12px">Every decision we make is driven by what converts and what grows your business.</p>
-        <div style="margin-top:30px;display:flex;gap:24px">
-          <div><div style="font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:800;color:#fff">100%</div><div style="font-size:0.78rem;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.08em">Custom Work</div></div>
-          <div><div style="font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:800;color:#fff">₹0</div><div style="font-size:0.78rem;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.08em">Hidden Costs</div></div>
-        </div>
-      </div>
-      <div class="why-floating">
-        <div class="why-floating-icon">🇮🇳</div>
-        <div><strong>Made in India</strong><small>Serving clients nationwide</small></div>
-      </div>
-    </div>
-    <div class="why-points reveal">
-      <div class="why-point"><div class="why-point-icon">💡</div><div class="why-point-text"><h4>Transparent Pricing</h4><p>No hidden costs. Clear packages. Honest conversations from day one.</p></div></div>
-      <div class="why-point"><div class="why-point-icon">📈</div><div class="why-point-text"><h4>Business-First Thinking</h4><p>Every design decision is made with growth and conversions in mind.</p></div></div>
-      <div class="why-point"><div class="why-point-icon">✏️</div><div class="why-point-text"><h4>Custom Work Only</h4><p>Zero templates. Every project is crafted around your brand and goals.</p></div></div>
-      <div class="why-point"><div class="why-point-icon">⚡</div><div class="why-point-text"><h4>Modern & Scalable</h4><p>Clean code and systems built to grow with your business over time.</p></div></div>
-      <div class="why-point"><div class="why-point-icon">💬</div><div class="why-point-text"><h4>Direct Support</h4><p>Quick responses via WhatsApp — no tickets, no waiting queues.</p></div></div>
-    </div>
+    <div class="why-item reveal rd1"><div class="why-num">01</div><div class="why-title">Custom Design Only</div><div class="why-desc">Zero templates. Every project is built from scratch around your brand, your audience, and your goals.</div></div>
+    <div class="why-item reveal rd2"><div class="why-num">02</div><div class="why-title">Transparent Pricing</div><div class="why-desc">No hidden costs. No surprise invoices. The price agreed on day one is the price you pay on delivery.</div></div>
+    <div class="why-item reveal rd3"><div class="why-num">03</div><div class="why-title">Mobile-First Always</div><div class="why-desc">Over 70% of Indian web traffic is mobile. Every site we build is designed for mobile first, then scaled up.</div></div>
+    <div class="why-item reveal rd4"><div class="why-num">04</div><div class="why-title">Fast 3–7 Day Delivery</div><div class="why-desc">Most websites are live within a week. Simple landing pages in 2–3 days. We don't believe in unnecessary delays.</div></div>
+    <div class="why-item reveal rd5"><div class="why-num">05</div><div class="why-title">WhatsApp-First Support</div><div class="why-desc">No ticket queues. No email chains. Direct access to the team on WhatsApp — quick edits, quick answers.</div></div>
+    <div class="why-item reveal rd6"><div class="why-num">06</div><div class="why-title">SEO From Day One</div><div class="why-desc">Every site is structured for search engines from the ground up — not bolted on as an afterthought.</div></div>
+    <div class="why-item reveal" style="grid-column: span 2"><div class="why-num">07</div><div class="why-title">Business-First Thinking</div><div class="why-desc">We don't build pretty websites. We build websites that convert visitors into customers and grow your business over time. Every design decision is driven by what works, not what looks nice in a portfolio.</div></div>
   </div>
 </section>
 
 <!-- TESTIMONIALS -->
-<section class="section">
-  <div class="section-header center reveal">
-    <div class="section-tag">Testimonials</div>
-    <h2 class="section-heading">What our clients say</h2>
-    <p class="section-sub">Don't take our word for it — here's what businesses we've worked with have to say.</p>
+<section class="section section-dark">
+  <div class="section-head center reveal">
+    <div class="label light">Client Testimonials</div>
+    <h2 class="section-title light">Don't Take Our<br><em>Word for It.</em></h2>
+    <p class="section-sub light">Businesses across India trust WebNova to build their digital presence. Here's what they say.</p>
   </div>
-  <div class="testimonials-track">
-    <div class="testimonial-card reveal reveal-delay-1"><div class="stars">★★★★★</div><p class="testimonial-text">WebNova delivered our resort website in just 5 days and it looks absolutely stunning. We've seen a 40% increase in direct bookings since going live.</p><div class="testimonial-author"><div class="author-avatar">RA</div><div><div class="author-name">Rohan Ahire</div><div class="author-role">Owner, The Hillside Resort</div></div></div></div>
-    <div class="testimonial-card reveal reveal-delay-2"><div class="stars">★★★★★</div><p class="testimonial-text">The branding and e-commerce site they built for us is exactly what we envisioned — and more. Professional, fast, and always available on WhatsApp. Highly recommend.</p><div class="testimonial-author"><div class="author-avatar">PS</div><div><div class="author-name">Priya Sharma</div><div class="author-role">Founder, Radiance Wear · Pune</div></div></div></div>
-    <div class="testimonial-card reveal reveal-delay-3"><div class="stars">★★★★★</div><p class="testimonial-text">Our Google Business Profile setup and local SEO by WebNova has tripled our customer enquiries in two months. Best investment we've made for our gym so far.</p><div class="testimonial-author"><div class="author-avatar">VK</div><div><div class="author-name">Vishal Kadam</div><div class="author-role">Director, PeakFit Gym · Mumbai</div></div></div></div>
+  <div class="testimonials-grid">
+    <div class="testimonial reveal rd1">
+      <div class="quote-mark">"</div>
+      <div class="stars">★★★★★</div>
+      <div class="testimonial-body">WebNova delivered our resort website in just 5 days and it looks absolutely stunning. We've seen a 40% increase in direct bookings since going live. Worth every rupee.</div>
+      <div class="testimonial-author">
+        <div class="author-avatar">RA</div>
+        <div><div class="author-name">Rohan Ahire</div><div class="author-role">Owner, The Hillside Resort</div></div>
+      </div>
+    </div>
+    <div class="testimonial reveal rd2">
+      <div class="quote-mark">"</div>
+      <div class="stars">★★★★★</div>
+      <div class="testimonial-body">The branding and e-commerce site they built for us is exactly what we envisioned — and more. Professional, fast, and always available on WhatsApp. Highly recommend.</div>
+      <div class="testimonial-author">
+        <div class="author-avatar">PS</div>
+        <div><div class="author-name">Priya Sharma</div><div class="author-role">Founder, Radiance Wear · Pune</div></div>
+      </div>
+    </div>
+    <div class="testimonial reveal rd3">
+      <div class="quote-mark">"</div>
+      <div class="stars">★★★★★</div>
+      <div class="testimonial-body">Our Google Business Profile setup and local SEO by WebNova tripled our customer enquiries in two months. Best digital investment we've made for our gym.</div>
+      <div class="testimonial-author">
+        <div class="author-avatar">VK</div>
+        <div><div class="author-name">Vishal Kadam</div><div class="author-role">Director, PeakFit Gym · Mumbai</div></div>
+      </div>
+    </div>
   </div>
 </section>
 
-<!-- FAQ -->
-<section id="faq" class="section section-alt">
-  <div class="section-header center reveal">
-    <div class="section-tag">FAQ</div>
-    <h2 class="section-heading">Questions? We've got<br>clear answers.</h2>
-    <p class="section-sub">Here are the most common questions we get from new clients.</p>
-  </div>
-  <div class="faq-list">
-    <div class="faq-item reveal" onclick="toggleFaq(this)"><div class="faq-question"><h4>How long does it take to build a website?</h4><div class="faq-icon">+</div></div><div class="faq-answer"><p>Most websites are delivered within 3–7 business days. Simple landing pages can be done in 2–3 days. Complex web apps or e-commerce stores may take 2–4 weeks depending on features. We give you a clear timeline upfront before starting any project.</p></div></div>
-    <div class="faq-item reveal reveal-delay-1" onclick="toggleFaq(this)"><div class="faq-question"><h4>Do I need to provide content like text and images?</h4><div class="faq-icon">+</div></div><div class="faq-answer"><p>Ideally yes — your own content will always perform better. However, if you don't have content ready, our team can help write copy and source relevant images as part of your package. Just let us know and we'll factor that into the plan.</p></div></div>
-    <div class="faq-item reveal reveal-delay-2" onclick="toggleFaq(this)"><div class="faq-question"><h4>What is a Google Business Profile and why do I need it?</h4><div class="faq-icon">+</div></div><div class="faq-answer"><p>A Google Business Profile (GBP) is a free listing that shows your business on Google Maps and local search results. When someone searches "[your service] in [your city]", a well-optimised GBP puts you in front of those customers. It's one of the highest ROI investments for any local business.</p></div></div>
-    <div class="faq-item reveal reveal-delay-3" onclick="toggleFaq(this)"><div class="faq-question"><h4>What payment methods do you accept?</h4><div class="faq-icon">+</div></div><div class="faq-answer"><p>We accept UPI, bank transfer, and all major payment apps (GPay, PhonePe, Paytm). Typically we ask for 50% advance to begin work and the remaining 50% on delivery. For larger projects we can arrange milestone-based payments.</p></div></div>
-    <div class="faq-item reveal" onclick="toggleFaq(this)"><div class="faq-question"><h4>Will I be able to update the website myself?</h4><div class="faq-icon">+</div></div><div class="faq-answer"><p>Yes! We either build with a simple CMS so you can make updates yourself, or we're available for quick edits via WhatsApp. For clients on monthly social media or GBP packages, content updates are included.</p></div></div>
-    <div class="faq-item reveal reveal-delay-1" onclick="toggleFaq(this)"><div class="faq-question"><h4>Do you work with businesses outside India?</h4><div class="faq-icon">+</div></div><div class="faq-answer"><p>Absolutely — we work with clients all across India and internationally. Everything is handled remotely via WhatsApp, email, and video calls. Our clients are based in Pune, Mumbai, Bangalore, Delhi, and beyond.</p></div></div>
-  </div>
-</section>
-
-<!-- CTA BANNER -->
-<section style="padding:80px 6%;background:var(--ink2);text-align:center">
-  <div class="reveal">
-    <div class="section-tag" style="background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.7)">Let's Build Together</div>
-    <h2 style="font-family:'Syne',sans-serif;font-size:clamp(2rem,4vw,3rem);font-weight:800;color:#fff;margin:16px 0 12px;letter-spacing:-0.03em;">Ready to grow your<br>digital presence?</h2>
-    <p style="color:rgba(255,255,255,0.55);max-width:480px;margin:0 auto 36px;font-size:1rem;line-height:1.7;">Get a free consultation and custom quote — no obligation, no pressure. Just a straight conversation about what's best for your business.</p>
-    <button class="btn-hero-primary" onclick="openModal('Free Consultation')">Get My Free Consultation</button>
+<!-- CTA -->
+<section id="contact" class="cta-section">
+  <div class="cta-inner">
+    <div class="label light" style="justify-content:center;margin-bottom:24px">Let's Build Together</div>
+    <h2 class="section-title" style="color:var(--white);font-size:clamp(2.2rem,5vw,4.5rem);margin-bottom:20px">
+      Ready to Grow Your<br><em>Digital Presence?</em>
+    </h2>
+    <p class="section-sub" style="color:rgba(250,248,244,0.4);margin:0 auto 40px;text-align:center">
+      Get a free consultation and custom quote — no obligation, no pressure.<br>Just a straight conversation about what's best for your business.
+    </p>
+    <div class="cta-contacts">
+      <div class="cta-contact-item">📧 <a href="mailto:webnoovaa@gmail.com">webnoovaa@gmail.com</a></div>
+      <div class="cta-contact-item">📞 <a href="tel:+917378490883">+91 73784 90883</a></div>
+      <div class="cta-contact-item">📞 <a href="tel:+919049305448">+91 90493 05448</a></div>
+      <div class="cta-contact-item">🌐 <a href="https://webnova.co.in" target="_blank">webnova.co.in</a></div>
+    </div>
+    <div>
+      <button class="btn-primary" onclick="openModal('Free Consultation')">Get Free Consultation <span>→</span></button>
+      <a href="https://wa.me/917378490883?text=Hello%20WebNova%20👋%20I%20saw%20your%20portfolio%20and%20want%20to%20discuss%20a%20project." target="_blank" class="btn-outline-light">Chat on WhatsApp</a>
+    </div>
   </div>
 </section>
 
 <!-- FOOTER -->
 <footer>
-  <div class="footer-main">
-    <div class="footer-brand">
-      <img src="logo.png" alt="WebNova" class="footer-logo-img">
-      <p>We design and build digital experiences that help businesses grow, convert, and scale with confidence. Serving clients across India.</p>
-      <a href="https://wa.me/917378490883" target="_blank" class="footer-wa">💬 Start WhatsApp Chat</a>
+  <div class="footer-top">
+    <div>
+      <div class="footer-logo">Web<span>Nova</span></div>
+      <div class="footer-tagline">Custom websites & digital experiences · Made in India</div>
     </div>
-    <div class="footer-col">
-      <h4>Services</h4>
-      <ul>
-        <li>Website Development</li>
-        <li>Web Applications</li>
-        <li>E-commerce Solutions</li>
-        <li>Brand Identity</li>
-        <li>Social Media Growth</li>
-        <li>Google Business Profile</li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h4>Contact</h4>
-      <p>📞 <a href="tel:+917378490883">+91 73784 90883</a></p>
-      <p>📞 <a href="tel:+919049305448">+91 90493 05448</a></p>
-      <p>📷 <a href="https://instagram.com/web.nova_official" target="_blank">@web.nova_official</a></p>
+    <div class="footer-links">
+      <a href="#projects">Work</a>
+      <a href="#services">Services</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#process">Process</a>
+      <a href="https://webnova.co.in" target="_blank">Main Site</a>
+      <a href="https://instagram.com/web.nova_official" target="_blank">Instagram</a>
+      <a href="https://wa.me/917378490883" target="_blank">WhatsApp</a>
     </div>
   </div>
   <div class="footer-bottom">
-    <span>© 2026 WebNova. All rights reserved.</span>
-    <span>Crafted with ❤️ in India</span>
+    <div class="footer-copy">© 2026 WebNova. All rights reserved.</div>
+    <div class="footer-copy">Crafted with precision in India 🇮🇳</div>
   </div>
 </footer>
 
-<!-- WhatsApp Float -->
-<a href="https://wa.me/917378490883?text=Hello%20WebNova%20👋%20I%20want%20a%20free%20consultation" class="whatsapp-float" target="_blank" aria-label="Chat on WhatsApp">
+<!-- WA Float -->
+<a href="https://wa.me/917378490883?text=Hello%20WebNova%20👋%20I%20saw%20your%20portfolio%20and%20want%20to%20discuss%20a%20project." class="wa-float" target="_blank" aria-label="Chat on WhatsApp">
   <svg viewBox="0 0 32 32"><path d="M19.11 17.19c-.27-.14-1.6-.79-1.85-.88-.25-.09-.43-.14-.61.14-.18.27-.7.88-.86 1.06-.16.18-.32.2-.59.07-.27-.14-1.13-.42-2.15-1.34-.79-.7-1.32-1.56-1.48-1.83-.16-.27-.02-.41.12-.55.13-.13.27-.32.41-.48.14-.16.18-.27.27-.45.09-.18.05-.34-.02-.48-.07-.14-.61-1.47-.84-2.02-.22-.53-.45-.46-.61-.47h-.52c-.18 0-.48.07-.73.34-.25.27-.95.93-.95 2.27 0 1.34.98 2.63 1.12 2.81.14.18 1.93 2.95 4.68 4.13.65.28 1.15.45 1.54.57.65.21 1.25.18 1.72.11.53-.08 1.6-.65 1.83-1.28.23-.63.23-1.17.16-1.28-.07-.11-.25-.18-.52-.32zM16.04 3C9.4 3 4 8.4 4 15.04c0 2.65.87 5.1 2.35 7.07L4 29l7.06-2.3a11.98 11.98 0 005.98 1.55c6.64 0 12.04-5.4 12.04-12.04C29.08 8.4 22.68 3 16.04 3zm0 21.78c-2.24 0-4.32-.66-6.07-1.79l-.43-.26-4.19 1.36 1.37-4.08-.28-.42a9.77 9.77 0 01-1.62-5.38c0-5.42 4.41-9.83 9.83-9.83s9.83 4.41 9.83 9.83-4.41 9.83-9.83 9.83z"/></svg>
 </a>
 
@@ -1539,90 +1753,134 @@
 <div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
   <div class="modal-box">
     <button class="modal-close" onclick="closeModal()">✕</button>
-    <h2>Let's Start Your <span>Project</span></h2>
+    <div class="modal-title">Start Your <span>Project</span></div>
     <p class="modal-sub">Enquiring for: <strong id="pkg-name">Free Consultation</strong></p>
     <div class="form-group">
       <input type="text" id="custName" placeholder="Full Name" required>
       <input type="tel" id="custPhone" placeholder="Phone Number" required>
-      <textarea id="custMsg" rows="4" placeholder="Tell us about your requirements..."></textarea>
-      <button class="btn-submit" onclick="sendWhatsApp()">Send via WhatsApp →</button>
+      <textarea id="custMsg" rows="4" placeholder="Tell us about your project..."></textarea>
+      <button class="btn-modal-submit" onclick="sendWhatsApp()">Send via WhatsApp →</button>
     </div>
   </div>
 </div>
 
 <script>
-/* ── SERVICE DATA ── */
-const serviceData = {
-  web: { label:"Website Development", packages:[
-    {name:"Basic",price:"₹6,999",features:["3–5 Sections","Responsive Design","WhatsApp Integration"]},
-    {name:"Standard",price:"₹9,999",features:["5–7 Pages","Custom UI/UX","Performance Optimisation"]},
-    {name:"Premium",price:"₹14,999",features:["8–12 Pages","Speed & Security","Lead Capture Forms"],featured:true}
-  ]},
-  webapp: { label:"Web Applications", packages:[
-    {name:"Basic",price:"₹19,999",features:["Simple Web App","Admin Panel","Database Integration"]},
-    {name:"Standard",price:"₹39,999",features:["Custom App","Role-Based Access","API Integration"]},
-    {name:"Premium",price:"₹69,999",features:["Advanced App","Auth System","Security & Performance"],featured:true}
-  ]},
-  ecommerce: { label:"E-commerce", packages:[
-    {name:"Basic",price:"₹9,999",features:["Product Listing","Responsive Store","WhatsApp Orders"]},
-    {name:"Standard",price:"₹15,999",features:["Cart & Checkout","Payment Gateway","Order Management"]},
-    {name:"Premium",price:"₹21,999",features:["Inventory System","Shipping Integration","Admin Dashboard"],featured:true}
-  ]},
-  social: { label:"Social Media", packages:[
-    {name:"Basic",price:"₹4,999",features:["8 Posts/month","Captions & Hashtags","Creative Design"]},
-    {name:"Standard",price:"₹7,999",features:["12 Posts + 4 Reels","Profile Optimisation","Engagement Strategy"]},
-    {name:"Premium",price:"₹12,999",features:["20 Posts + 8 Reels","Content Planning","Growth Strategy"],featured:true}
-  ]},
-  branding: { label:"Branding", packages:[
-    {name:"Basic",price:"₹999",features:["Logo Design","1 Revision"]},
-    {name:"Standard",price:"₹1,999",features:["2 Concepts","Colour Palette","Font Selection"]},
-    {name:"Premium",price:"₹2,999",features:["Complete Brand Kit","Unlimited Revisions"],featured:true}
-  ]},
-  gbp: { label:"Google Business", packages:[
-    {name:"Basic",price:"₹1,999",features:["Profile Setup","Verification Support"]},
-    {name:"Standard",price:"₹3,999",features:["Profile Optimisation","Services & Description"]},
-    {name:"Premium",price:"₹6,999",features:["Local SEO","Photos & Products","Insights Setup"],featured:true}
-  ]},
-  bundles: { label:"Bundle Offers", packages:[
-    {name:"Startup Bundle",price:"₹9,999",features:["Website (Basic)","Logo Design","GBP Setup"]},
-    {name:"Business Growth",price:"₹14,999",features:["Website (Standard)","Branding","GBP Optimisation"]},
-    {name:"Digital Presence",price:"₹19,999",features:["Website (Premium)","Full Branding","GBP Premium"],featured:true},
-    {name:"E-commerce Launch",price:"₹29,999",features:["E-commerce Site","Logo Design","GBP Setup"]}
-  ]}
+/* ── PRICING DATA — matching webnova.co.in ── */
+const PRICING = {
+  web: {
+    label: 'Website Development',
+    note: 'One-time project fee',
+    packages: [
+      { name: 'Basic', price: '₹6,999', featured: false, features: ['3–5 Page Sections', 'Responsive Mobile Design', 'WhatsApp Integration', 'Contact Form', 'Basic On-page SEO'] },
+      { name: 'Standard', price: '₹9,999', featured: false, features: ['5–7 Pages', 'Custom UI/UX Design', 'Performance Optimisation', 'Google Analytics Setup', 'Lead Capture Forms'] },
+      { name: 'Premium', price: '₹14,999', featured: true, features: ['8–12 Pages', 'Advanced Custom Design', 'Speed & Security Setup', 'Lead Capture + CRM', 'Post-launch Support'] }
+    ]
+  },
+  ecommerce: {
+    label: 'E-Commerce Store',
+    note: 'One-time project fee',
+    packages: [
+      { name: 'Basic', price: '₹9,999', featured: false, features: ['Product Listing (up to 20)', 'Responsive Store Design', 'WhatsApp Order Integration', 'Basic Checkout Flow'] },
+      { name: 'Standard', price: '₹15,999', featured: false, features: ['Cart & Checkout System', 'Payment Gateway Integration', 'Order Management Panel', 'Up to 50 Products', 'Discount Coupons'] },
+      { name: 'Premium', price: '₹21,999', featured: true, features: ['Inventory Management', 'Shipping Integration', 'Admin Dashboard', 'Unlimited Products', 'Performance Optimisation'] }
+    ]
+  },
+  webapp: {
+    label: 'Web Application',
+    note: 'One-time project fee',
+    packages: [
+      { name: 'Basic', price: '₹19,999', featured: false, features: ['Simple Web App', 'Admin Panel', 'Database Integration', 'User Authentication', 'Basic Reporting'] },
+      { name: 'Standard', price: '₹39,999', featured: false, features: ['Custom App Logic', 'Role-Based Access Control', 'Third-party API Integration', 'Advanced Dashboard', 'Data Export'] },
+      { name: 'Premium', price: '₹69,999', featured: true, features: ['Complex App Architecture', 'Multi-role Auth System', 'Advanced Security', 'Performance Scaling', 'Full Documentation'] }
+    ]
+  },
+  social: {
+    label: 'Social Media Marketing',
+    note: 'Monthly retainer',
+    packages: [
+      { name: 'Basic', price: '₹4,999 /mo', featured: false, features: ['8 Posts per Month', 'Creative Design', 'Captions & Hashtags', 'Instagram + Facebook', '1 Platform'] },
+      { name: 'Standard', price: '₹7,999 /mo', featured: false, features: ['12 Posts + 4 Reels', 'Profile Optimisation', 'Engagement Strategy', 'Monthly Report', '2 Platforms'] },
+      { name: 'Premium', price: '₹12,999 /mo', featured: true, features: ['20 Posts + 8 Reels', 'Full Content Planning', 'Growth Strategy', 'Story & Highlight Design', '3 Platforms'] }
+    ]
+  },
+  branding: {
+    label: 'Brand Identity Design',
+    note: 'One-time project fee',
+    packages: [
+      { name: 'Basic', price: '₹999', featured: false, features: ['Logo Design (1 Concept)', '1 Revision Round', 'PNG & JPG Delivery', 'Basic Colour Options'] },
+      { name: 'Standard', price: '₹1,999', featured: false, features: ['2 Logo Concepts', 'Colour Palette', 'Font Selection', '3 Revision Rounds', 'All File Formats'] },
+      { name: 'Premium', price: '₹2,999', featured: true, features: ['Complete Brand Kit', 'Logo + Palette + Fonts', 'Brand Usage Guidelines', 'Unlimited Revisions', 'Print-ready Files'] }
+    ]
+  },
+  gbp: {
+    label: 'Google Business Profile',
+    note: 'One-time setup fee',
+    packages: [
+      { name: 'Basic', price: '₹1,999', featured: false, features: ['GBP Profile Creation', 'Business Info Setup', 'Category & Hours', 'Verification Support'] },
+      { name: 'Standard', price: '₹3,999', featured: false, features: ['Full Profile Optimisation', 'Services & Description', 'Photo Upload (10 photos)', 'Review Response Setup', 'Q&A Setup'] },
+      { name: 'Premium', price: '₹6,999', featured: true, features: ['Complete Local SEO', 'Photo Strategy (20+)', 'Product & Service Posts', 'Google Insights Setup', 'Monthly GBP Post (3 months)'] }
+    ]
+  },
+  bundles: {
+    label: 'Bundle Deal',
+    note: 'Best value — everything in one',
+    packages: [
+      { name: 'Startup Bundle', price: '₹9,999', featured: false, features: ['Website (Basic)', 'Logo Design (Basic)', 'GBP Profile Setup', 'WhatsApp Integration', 'Free Consultation'] },
+      { name: 'Business Growth', price: '₹14,999', featured: false, features: ['Website (Standard)', 'Full Branding (Standard)', 'GBP Optimisation', 'Social Media Setup', '1 Month Support'] },
+      { name: 'Digital Presence', price: '₹19,999', featured: true, features: ['Website (Premium)', 'Complete Brand Kit', 'GBP Premium Setup', '1 Month Social Media', 'Priority Support'] },
+      { name: 'E-Commerce Launch', price: '₹29,999', featured: false, features: ['E-Commerce Store (Standard)', 'Logo Design', 'GBP Setup', 'Social Media (1 month)', 'Launch Support'] }
+    ]
+  }
 };
 
-function showCategory(cat, el) {
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  if (el) el.classList.add('active');
-  const grid = document.getElementById('service-grid');
-  const service = serviceData[cat];
-  grid.innerHTML = service.packages.map(pkg => `
-    <div class="card ${pkg.featured ? 'featured' : ''}">
-      <div class="card-tag">${service.label}</div>
-      <h3>${pkg.name}</h3>
-      <div class="price">${pkg.price}</div>
-      <ul class="feature-list">${pkg.features.map(f => `<li>${f}</li>`).join('')}</ul>
-      <button class="btn-enquire" onclick="openModal('${service.label} – ${pkg.name}')">Enquire Now</button>
-    </div>`).join('');
+function showPricing(cat, btn) {
+  document.querySelectorAll('.ptab').forEach(t => t.classList.remove('active'));
+  if (btn) btn.classList.add('active');
 
-  // Re-apply 3D tilt to new cards
-  setTimeout(() => {
-    document.querySelectorAll('.pricing-grid .card').forEach(card => apply3DTilt(card));
-  }, 100);
+  const data = PRICING[cat];
+  const grid = document.getElementById('pricingGrid');
+
+  grid.innerHTML = data.packages.map(pkg => `
+    <div class="price-card ${pkg.featured ? 'featured' : ''}">
+      ${pkg.featured ? '<div class="price-featured-badge">Most Popular</div>' : ''}
+      <div class="price-card-tag">${data.label}</div>
+      <div class="price-card-name">${pkg.name}</div>
+      <div class="price-amount">${pkg.price}</div>
+      <div class="price-note">${data.note}</div>
+      <div class="price-divider"></div>
+      <ul class="price-features">
+        ${pkg.features.map(f => `<li>${f}</li>`).join('')}
+      </ul>
+      <button class="price-cta" onclick="openModal('${data.label} – ${pkg.name} (${pkg.price})')">Enquire Now →</button>
+    </div>
+  `).join('');
 }
 
-function buildTabs() {
-  const wrap = document.getElementById('tabsWrap');
-  const labels = {web:'Development',webapp:'Web Apps',ecommerce:'E-commerce',social:'Growth',branding:'Branding',gbp:'Google Business',bundles:'Bundles'};
-  Object.entries(labels).forEach(([key, label], i) => {
-    const btn = document.createElement('button');
-    btn.className = 'tab' + (i === 0 ? ' active' : '');
-    btn.textContent = label;
-    btn.onclick = () => showCategory(key, btn);
-    wrap.appendChild(btn);
-  });
-  showCategory('web', wrap.firstChild);
+// Init pricing on page load
+showPricing('web', document.querySelector('.ptab'));
+
+/* ── NAV ── */
+window.addEventListener('scroll', () => {
+  document.getElementById('mainNav').classList.toggle('scrolled', window.scrollY > 40);
+});
+
+/* ── HAMBURGER ── */
+document.getElementById('hamburger').addEventListener('click', function() {
+  this.classList.toggle('open');
+  document.getElementById('mobileMenu').classList.toggle('open');
+  document.body.style.overflow = this.classList.contains('open') ? 'hidden' : '';
+});
+function closeMobileMenu() {
+  document.getElementById('hamburger').classList.remove('open');
+  document.getElementById('mobileMenu').classList.remove('open');
+  document.body.style.overflow = '';
 }
+
+/* ── REVEAL ── */
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
 /* ── MODAL ── */
 function openModal(pkg) {
@@ -1645,324 +1903,13 @@ function sendWhatsApp() {
   if (!name || !phone) { alert('Please enter your name and phone number'); return; }
   const text = `Hello WebNova 👋\n\nI am interested in *${service}*.\n\nName: ${name}\nPhone: ${phone}\nRequirement: ${msg || 'Not specified'}\n\nPlease connect with me.`;
   window.open(`https://wa.me/917378490883?text=${encodeURIComponent(text)}`, '_blank');
+  closeModal();
 }
 
-/* ── MOBILE MENU ── */
-document.getElementById('hamburger').addEventListener('click', function() {
-  this.classList.toggle('open');
-  document.getElementById('mobileMenu').classList.toggle('open');
-  document.body.style.overflow = this.classList.contains('open') ? 'hidden' : '';
-});
-function closeMobileMenu() {
-  document.getElementById('hamburger').classList.remove('open');
-  document.getElementById('mobileMenu').classList.remove('open');
-  document.body.style.overflow = '';
-}
-
-/* ── NAV SCROLL ── */
-window.addEventListener('scroll', () => {
-  document.getElementById('mainNav').classList.toggle('scrolled', window.scrollY > 40);
-});
-
-/* ── SCROLL REVEAL ── */
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-}, { threshold: 0.12 });
-document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-/* ── FAQ ── */
-function toggleFaq(item) {
-  const isOpen = item.classList.contains('open');
-  document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
-  if (!isOpen) item.classList.add('open');
-}
-
-/* ── 3D MOUSE TILT ── */
-function apply3DTilt(el) {
-  el.addEventListener('mousemove', (e) => {
-    const rect = el.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
-    const rotateX = ((y - centerY) / centerY) * -12;
-    const rotateY = ((x - centerX) / centerX) * 12;
-    el.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-8px)`;
-  });
-  el.addEventListener('mouseleave', () => {
-    el.style.transform = '';
-  });
-}
-
-/* Apply tilt to about cards, process steps, testimonials, why main card */
-document.querySelectorAll('.about-card, .process-step, .testimonial-card').forEach(el => apply3DTilt(el));
-
-const whyCard = document.getElementById('whyMainCard');
-if (whyCard) apply3DTilt(whyCard);
-
-/* ── THREE.JS HERO ANIMATION ── */
-function initHero3D() {
-  const canvas = document.getElementById('hero-canvas');
-  if (!canvas || typeof THREE === 'undefined') return;
-
-  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-  renderer.setSize(canvas.offsetWidth, canvas.offsetHeight);
-
-  const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(60, canvas.offsetWidth / canvas.offsetHeight, 0.1, 100);
-  camera.position.z = 5;
-
-  const particles = [];
-  const geometry = new THREE.BufferGeometry();
-  const count = 1200;
-  const positions = new Float32Array(count * 3);
-  const colors = new Float32Array(count * 3);
-  const sizes = new Float32Array(count);
-
-  for (let i = 0; i < count; i++) {
-    positions[i * 3] = (Math.random() - 0.5) * 20;
-    positions[i * 3 + 1] = (Math.random() - 0.5) * 20;
-    positions[i * 3 + 2] = (Math.random() - 0.5) * 10;
-
-    const t = Math.random();
-    if (t < 0.5) {
-      colors[i * 3] = 0.486; colors[i * 3 + 1] = 0.227; colors[i * 3 + 2] = 0.929;
-    } else {
-      colors[i * 3] = 0.859; colors[i * 3 + 1] = 0.153; colors[i * 3 + 2] = 0.467;
-    }
-    sizes[i] = Math.random() * 3 + 1;
-    particles.push({ vx: (Math.random() - 0.5) * 0.008, vy: (Math.random() - 0.5) * 0.008 });
-  }
-
-  geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-  geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-  geometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
-
-  const material = new THREE.PointsMaterial({
-    size: 0.08,
-    vertexColors: true,
-    transparent: true,
-    opacity: 0.75,
-    sizeAttenuation: true
-  });
-
-  const points = new THREE.Points(geometry, material);
-  scene.add(points);
-
-  /* Floating geometric shapes */
-  const shapes = [];
-  const shapeGeos = [
-    new THREE.IcosahedronGeometry(0.4, 0),
-    new THREE.OctahedronGeometry(0.35, 0),
-    new THREE.TetrahedronGeometry(0.3, 0),
-    new THREE.IcosahedronGeometry(0.25, 0),
-    new THREE.OctahedronGeometry(0.45, 0),
-  ];
-
-  shapeGeos.forEach((geo, i) => {
-    const mat = new THREE.MeshPhongMaterial({
-      color: i % 2 === 0 ? 0x7c3aed : 0xdb2777,
-      transparent: true,
-      opacity: 0.25,
-      wireframe: false,
-    });
-    const wiremat = new THREE.MeshBasicMaterial({
-      color: i % 2 === 0 ? 0xc084fc : 0xf472b6,
-      wireframe: true,
-      transparent: true,
-      opacity: 0.4,
-    });
-    const mesh = new THREE.Mesh(geo, mat);
-    const wire = new THREE.Mesh(geo, wiremat);
-    mesh.add(wire);
-    mesh.position.set(
-      (Math.random() - 0.5) * 8,
-      (Math.random() - 0.5) * 6,
-      (Math.random() - 0.5) * 4 - 2
-    );
-    mesh.userData.speed = { x: (Math.random()-0.5)*0.006, y: (Math.random()-0.5)*0.006, rx: (Math.random()-0.5)*0.015, ry: (Math.random()-0.5)*0.015 };
-    scene.add(mesh);
-    shapes.push(mesh);
-  });
-
-  /* Lighting */
-  const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
-  scene.add(ambientLight);
-  const pointLight1 = new THREE.PointLight(0x7c3aed, 2, 20);
-  pointLight1.position.set(3, 3, 3);
-  scene.add(pointLight1);
-  const pointLight2 = new THREE.PointLight(0xdb2777, 2, 20);
-  pointLight2.position.set(-3, -2, 2);
-  scene.add(pointLight2);
-
-  let mouseX = 0, mouseY = 0;
-  document.addEventListener('mousemove', (e) => {
-    mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
-    mouseY = -(e.clientY / window.innerHeight - 0.5) * 2;
-  });
-
-  let time = 0;
-  function animate() {
-    requestAnimationFrame(animate);
-    time += 0.01;
-
-    /* Animate particles */
-    const pos = geometry.attributes.position.array;
-    for (let i = 0; i < count; i++) {
-      pos[i * 3] += particles[i].vx;
-      pos[i * 3 + 1] += particles[i].vy;
-      if (Math.abs(pos[i * 3]) > 10) particles[i].vx *= -1;
-      if (Math.abs(pos[i * 3 + 1]) > 10) particles[i].vy *= -1;
-    }
-    geometry.attributes.position.needsUpdate = true;
-
-    points.rotation.y += 0.0008;
-    points.rotation.x += 0.0003;
-
-    /* Animate shapes */
-    shapes.forEach((s, i) => {
-      s.rotation.x += s.userData.speed.rx;
-      s.rotation.y += s.userData.speed.ry;
-      s.position.y += Math.sin(time + i) * 0.004;
-    });
-
-    /* Camera parallax */
-    camera.position.x += (mouseX * 1.5 - camera.position.x) * 0.04;
-    camera.position.y += (mouseY * 1.0 - camera.position.y) * 0.04;
-    camera.lookAt(scene.position);
-
-    renderer.render(scene, camera);
-  }
-  animate();
-
-  window.addEventListener('resize', () => {
-    const w = canvas.offsetWidth, h = canvas.offsetHeight;
-    renderer.setSize(w, h);
-    camera.aspect = w / h;
-    camera.updateProjectionMatrix();
-  });
-}
-
-/* ── THREE.JS ORBIT ANIMATION ── */
-function initOrbit3D() {
-  const canvas = document.getElementById('orbit-canvas');
-  if (!canvas || typeof THREE === 'undefined') return;
-
-  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-  renderer.setSize(canvas.offsetWidth, canvas.offsetHeight);
-
-  const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(50, 1, 0.1, 100);
-  camera.position.z = 4;
-
-  /* Central sphere */
-  const sphereGeo = new THREE.SphereGeometry(0.7, 32, 32);
-  const sphereMat = new THREE.MeshPhongMaterial({
-    color: 0x7c3aed,
-    transparent: true,
-    opacity: 0.8,
-    shininess: 100,
-  });
-  const sphere = new THREE.Mesh(sphereGeo, sphereMat);
-  scene.add(sphere);
-
-  const wireGeo = new THREE.SphereGeometry(0.72, 16, 16);
-  const wireMat = new THREE.MeshBasicMaterial({ color: 0xc084fc, wireframe: true, transparent: true, opacity: 0.3 });
-  sphere.add(new THREE.Mesh(wireGeo, wireMat));
-
-  /* Orbiting rings */
-  const orbitData = [
-    { radius: 1.4, speed: 0.8, color: 0x7c3aed, size: 0.12, count: 4 },
-    { radius: 1.9, speed: -0.5, color: 0xdb2777, size: 0.09, count: 6 },
-    { radius: 2.5, speed: 0.3, color: 0xc084fc, size: 0.07, count: 8 },
-  ];
-
-  const orbitGroups = orbitData.map((od, i) => {
-    const group = new THREE.Group();
-    group.rotation.x = (i * 0.8) + 0.4;
-    group.rotation.z = i * 0.5;
-
-    /* Ring line */
-    const ringGeo = new THREE.TorusGeometry(od.radius, 0.008, 8, 64);
-    const ringMat = new THREE.MeshBasicMaterial({ color: od.color, transparent: true, opacity: 0.25 });
-    group.add(new THREE.Mesh(ringGeo, ringMat));
-
-    /* Orbiters */
-    for (let j = 0; j < od.count; j++) {
-      const ang = (j / od.count) * Math.PI * 2;
-      const geo = new THREE.SphereGeometry(od.size, 12, 12);
-      const mat = new THREE.MeshPhongMaterial({ color: od.color, emissive: od.color, emissiveIntensity: 0.3 });
-      const orb = new THREE.Mesh(geo, mat);
-      orb.position.set(Math.cos(ang) * od.radius, 0, Math.sin(ang) * od.radius);
-      group.add(orb);
-    }
-    scene.add(group);
-    return { group, speed: od.speed };
-  });
-
-  const ambLight = new THREE.AmbientLight(0xffffff, 0.5);
-  scene.add(ambLight);
-  const pl = new THREE.PointLight(0x7c3aed, 3, 10);
-  pl.position.set(2, 2, 2);
-  scene.add(pl);
-  const pl2 = new THREE.PointLight(0xdb2777, 2, 10);
-  pl2.position.set(-2, -1, 1);
-  scene.add(pl2);
-
-  let time = 0;
-  function animate() {
-    requestAnimationFrame(animate);
-    time += 0.01;
-
-    sphere.rotation.y += 0.005;
-    sphere.rotation.x += 0.002;
-
-    orbitGroups.forEach(og => {
-      og.group.rotation.y += og.speed * 0.01;
-    });
-
-    renderer.render(scene, camera);
-  }
-  animate();
-}
-
-/* ── INIT ── */
-window.onload = () => {
-  buildTabs();
-  initHero3D();
-  initOrbit3D();
-};
+/* ── TICKER ── */
+const ticker = document.getElementById('ticker');
+ticker.innerHTML += ticker.innerHTML;
 </script>
-
-<!-- ═══════════════════════════════════════════
-     SEO RICH TEXT BLOCK (crawlable, visually subtle)
-═══════════════════════════════════════════ -->
-<section aria-label="About WebNova – SEO content" style="background:#f4f3f8;padding:60px 6% 40px;border-top:1px solid rgba(124,58,237,0.08)">
-  <div style="max-width:900px;margin:0 auto">
-    <h2 style="font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:700;color:#0a0a0f;margin-bottom:16px">WebNova – Website Design & Digital Marketing Agency in India</h2>
-    <p style="font-size:0.92rem;color:#6b6880;line-height:1.85;margin-bottom:16px">
-      WebNova is a leading <strong>website design and digital marketing agency</strong> based in Pune, Maharashtra, serving clients across India including Mumbai, Bangalore, Delhi, Hyderabad, and beyond. We specialise in building custom, high-performance websites that drive real business results — not cookie-cutter templates.
-    </p>
-    <p style="font-size:0.92rem;color:#6b6880;line-height:1.85;margin-bottom:16px">
-      Our services include <strong>custom website development</strong>, <strong>e-commerce store creation</strong>, <strong>Google Business Profile (GBP) setup and optimisation</strong>, <strong>local SEO</strong>, <strong>brand identity design</strong>, <strong>logo design</strong>, <strong>social media management</strong>, and <strong>web application development</strong>. We work with restaurants, gyms, resorts, retail brands, real estate businesses, salons, clinics, and more.
-    </p>
-    <p style="font-size:0.92rem;color:#6b6880;line-height:1.85;margin-bottom:16px">
-      Whether you're a startup looking for an affordable <strong>business website in India</strong>, or an established brand that needs a full <strong>digital marketing strategy</strong>, WebNova delivers transparent pricing, fast turnaround (as quick as 3 days), and direct WhatsApp support — no middlemen, no delays.
-    </p>
-    <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:20px">
-      <span style="font-size:0.78rem;padding:5px 14px;background:rgba(124,58,237,0.08);color:#7c3aed;border-radius:50px;font-weight:600">Web Design Pune</span>
-      <span style="font-size:0.78rem;padding:5px 14px;background:rgba(124,58,237,0.08);color:#7c3aed;border-radius:50px;font-weight:600">Digital Marketing Agency India</span>
-      <span style="font-size:0.78rem;padding:5px 14px;background:rgba(124,58,237,0.08);color:#7c3aed;border-radius:50px;font-weight:600">E-commerce Website India</span>
-      <span style="font-size:0.78rem;padding:5px 14px;background:rgba(124,58,237,0.08);color:#7c3aed;border-radius:50px;font-weight:600">Google Business Profile Setup</span>
-      <span style="font-size:0.78rem;padding:5px 14px;background:rgba(124,58,237,0.08);color:#7c3aed;border-radius:50px;font-weight:600">Local SEO India</span>
-      <span style="font-size:0.78rem;padding:5px 14px;background:rgba(124,58,237,0.08);color:#7c3aed;border-radius:50px;font-weight:600">Logo Design India</span>
-      <span style="font-size:0.78rem;padding:5px 14px;background:rgba(124,58,237,0.08);color:#7c3aed;border-radius:50px;font-weight:600">Social Media Marketing</span>
-      <span style="font-size:0.78rem;padding:5px 14px;background:rgba(124,58,237,0.08);color:#7c3aed;border-radius:50px;font-weight:600">Website Developer Mumbai</span>
-    </div>
-  </div>
-</section>
 
 </body>
 </html>
